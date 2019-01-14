@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/fatih/color"
+	"golang.org/x/text/width"
 	"log"
 	"math/rand"
 	"os"
@@ -26,6 +27,26 @@ var FrontColors = []color.Attribute{
 	color.FgHiRed,
 	color.FgHiWhite,
 	color.FgHiYellow,
+}
+
+func GetLooksLength(text string) int {
+	length := 0
+	for _, v := range []rune(text) {
+		kind := width.LookupRune(v).Kind()
+
+		if kind == width.EastAsianWide {
+			length += 2
+		} else {
+			length += 1
+		}
+	}
+	return length
+}
+
+func PrintAA(aa []string, padding int) {
+	for _, v := range aa {
+		PaddingPrint(v, padding)
+	}
 }
 
 func PaddingPrint(text string, c int) {

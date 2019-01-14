@@ -22,7 +22,6 @@ package cmd
 
 import (
 	"fmt"
-	"golang.org/x/text/width"
 	"math"
 	"strings"
 
@@ -31,8 +30,9 @@ import (
 
 // defaultCmd represents the default command
 var defaultCmd = &cobra.Command{
-	Use:   "default",
-	Short: "基本の終わりを出力するよ",
+	Use:     "default",
+	Short:   "基本の終わりを出力するよ",
+	Aliases: []string{"def"},
 	Long: `
        糸冬
 -------------------
@@ -49,7 +49,7 @@ var defaultCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(defaultCmd)
 
-	defaultCmd.Flags().Int("offset", 0, "左からの距離です")
+	defaultCmd.Flags().Int("offset", 0, "右からの距離です")
 }
 func PrintDefault(text string, offset int) {
 	if len(text) == 0 {
@@ -58,16 +58,7 @@ func PrintDefault(text string, offset int) {
 
 	// 幅を合わせていく
 	// 上のテキストの見た目の幅を数える
-	length := 0
-	for _, v := range []rune(text) {
-		kind := width.LookupRune(v).Kind()
-
-		if kind == width.EastAsianWide {
-			length += 2
-		} else {
-			length += 1
-		}
-	}
+	length := GetLooksLength(text)
 
 	// ハイフンの数
 	upper := 8
