@@ -1,0 +1,2 @@
+# owari
+The End Generator
