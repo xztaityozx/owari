@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/k0kubun/go-ansi"
 	"log"
 	"math/rand"
 	"os"
@@ -11,6 +10,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var FrontColors = []color.Attribute{
@@ -32,13 +32,15 @@ func PaddingPrint(text string, c int) {
 	for i := 0; i < c; i++ {
 		fmt.Printf(" ")
 	}
+
+	rand.Seed(time.Now().UnixNano())
+
 	if colorful {
 		// カラフルなやつ
-		for _, v := range text {
+		for _, v := range []rune(text) {
 			idx := rand.Intn(len(FrontColors))
-			ansi.Print(FrontColors[idx])
-			ansi.Print(v)
-			ansi.Print(color.Reset)
+			p := color.New(FrontColors[idx])
+			p.Printf("%c", v)
 		}
 		fmt.Println()
 	} else {

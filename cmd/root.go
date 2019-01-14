@@ -24,21 +24,26 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
-	"strings"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "owari",
-	Short: "",
-	Long:  ``,
+	Short: "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
+	Long: `
+       糸冬
+-------------------
+ 制作・著作 ＮＨＫ
+
+を出力します
+`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
 
 		// デフォルトを呼ぶ
 		offset, _ := cmd.Flags().GetInt("offset")
-		PrintDefault(strings.Join(args, " "), offset)
+		PrintDefault("", offset)
 	},
 }
 
@@ -54,7 +59,7 @@ var reqWidth string
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&colorful, "colorful", false, "カラフルにします")
-	rootCmd.PersistentFlags().StringVarP(&reqWidth, "reqWidth", "w", "auto", "表示幅です")
+	rootCmd.PersistentFlags().StringVarP(&reqWidth, "reqWidth", "w", "auto", "表示幅です．autoにすると端末幅を取得します")
 
 	rootCmd.Flags().Int("offset", 0, "左からの距離です")
 }
