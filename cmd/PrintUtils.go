@@ -59,7 +59,7 @@ func GetWidth() int {
 			}
 
 			hw := strings.Split(string(out), " ")
-			rt, err := strconv.Atoi(hw[1])
+			rt, err := strconv.Atoi(strings.Trim(hw[1], "\n"))
 			if err != nil {
 				log.Fatal(err)
 			}
