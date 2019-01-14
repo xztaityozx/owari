@@ -22,19 +22,24 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/spf13/cobra"
+	"os"
+	"strings"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "owari",
 	Short: "",
-	Long: ``,
+	Long:  ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-		Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+
+		// デフォルトを呼ぶ
+		offset, _ := cmd.Flags().GetInt("offset")
+		PrintDefault(strings.Join(args, " "), offset)
+	},
 }
 
 func Execute() {
@@ -45,7 +50,11 @@ func Execute() {
 }
 
 var colorful bool
+var reqWidth string
 
 func init() {
-	rootCmd.Flags().BoolVar(&colorful,"colorful",false,"カラフルにします")
+	rootCmd.PersistentFlags().BoolVar(&colorful, "colorful", false, "カラフルにします")
+	rootCmd.PersistentFlags().StringVarP(&reqWidth, "reqWidth", "w", "auto", "表示幅です")
+
+	rootCmd.Flags().Int("offset", 0, "左からの距離です")
 }
