@@ -26,7 +26,7 @@ import (
 	"strings"
 )
 
-var AA = `
+var BigAA = `
           了                了了了
           終終了            了終了
         了終終              終終了
@@ -59,7 +59,7 @@ var AA = `
 var bigCmd = &cobra.Command{
 	Use:   "big",
 	Short: "デカい終を出しますよ",
-	Long:  fmt.Sprintf("%s\n\nを出力します\n引数を与えると，終了の文字がそれになります\n", AA),
+	Long:  fmt.Sprintf("%s\n\nを出力します\n引数を与えると，終了の文字がそれになります\n", BigAA),
 	Run: func(cmd *cobra.Command, args []string) {
 		offset, _ := cmd.Flags().GetInt("offset")
 
@@ -73,11 +73,21 @@ func init() {
 }
 
 func PrintBig(text string, offset int) {
+
 	status := len(text) == 0
+
+	if status {
+		PrintAA(strings.Split(BigAA, "\n"), offset)
+		return
+	}
+
 	runeText := []rune(text)
 	textIdx := 0
 	maxLength := len(runeText)
-	for _, line := range strings.Split(AA, "\n") {
+
+	var aa []string
+
+	for _, line := range strings.Split(BigAA, "\n") {
 		if status {
 			PaddingPrint(line, offset)
 		} else {
@@ -90,8 +100,9 @@ func PrintBig(text string, offset int) {
 					replaced = append(replaced, rune(' '))
 				}
 			}
-
-			PaddingPrint(string(replaced), offset)
+			aa = append(aa, string(replaced))
 		}
 	}
+
+	PrintAA(aa, offset)
 }

@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/k0kubun/go-ansi"
 	"golang.org/x/text/width"
 	"log"
 	"math/rand"
@@ -44,8 +45,30 @@ func GetLooksLength(text string) int {
 }
 
 func PrintAA(aa []string, padding int) {
-	for _, v := range aa {
-		PaddingPrint(v, padding)
+
+	length := len(aa)
+
+	d, err := time.ParseDuration(duration)
+	if err != nil {
+		d, _ = time.ParseDuration("0.5s")
+	}
+
+	limit, err := strconv.Atoi(count)
+	if err != nil || count == "inf" {
+		limit = -1
+	}
+	// ひたすら
+	for i := 0; i < limit || limit < 0; i++ {
+		for _, v := range aa {
+			PaddingPrint(v, padding)
+		}
+
+		if overwrite && i != limit-1 {
+			ansi.CursorUp(length)
+		}
+
+		time.Sleep(d)
+
 	}
 }
 
@@ -67,6 +90,7 @@ func PaddingPrint(text string, c int) {
 	} else {
 		fmt.Println(text)
 	}
+
 }
 
 // 端末の幅を取る

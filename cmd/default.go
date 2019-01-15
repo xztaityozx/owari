@@ -81,7 +81,5 @@ func PrintDefault(text string, offset int) {
 
 	c := GetWidth() - length - upper - lower - offset
 
-	for _, v := range AA {
-		PaddingPrint(v, c)
-	}
+	PrintAA(AA, c)
 }
