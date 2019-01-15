@@ -76,7 +76,6 @@ func PrintAA(aa []string, padding int) {
 		if limit != 1 {
 			time.Sleep(d)
 		}
-
 	}
 }
 
