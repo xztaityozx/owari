@@ -44,39 +44,50 @@ func GetLooksLength(text string) int {
 	return length
 }
 
+// AA を出力するところ
 func PrintAA(aa []string, padding int) {
 
 	length := len(aa)
 
+	// インターバルをパース
 	d, err := time.ParseDuration(duration)
 	if err != nil {
 		d, _ = time.ParseDuration("0.5s")
 	}
 
+	// 出力回数をパース
 	limit, err := strconv.Atoi(count)
 	if err != nil || count == "inf" {
 		limit = -1
 	}
 	// ひたすら
 	for i := 0; i < limit || limit < 0; i++ {
+		// AAを出力
 		for _, v := range aa {
 			PaddingPrint(v, padding)
 		}
 
+		// カーソル位置を上に戻す
 		if overwrite && i != limit-1 {
 			ansi.CursorUp(length)
 		}
 
-		time.Sleep(d)
+		// 複数回出力するなら待機
+		if limit != 1 {
+			time.Sleep(d)
+		}
 
 	}
 }
 
+// 1行出力する
 func PaddingPrint(text string, c int) {
+	// パディング
 	for i := 0; i < c; i++ {
 		fmt.Printf(" ")
 	}
 
+	// 色の乱数，SEEDは時間
 	rand.Seed(time.Now().UnixNano())
 
 	if colorful {

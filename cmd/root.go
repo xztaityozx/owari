@@ -31,6 +31,9 @@ var rootCmd = &cobra.Command{
 	Use:   "owari",
 	Short: "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
 	Long: `
+
+owari: The End ASCII Art Generator v1.5
+
        糸冬
 -------------------
  制作・著作 ＮＨＫ
