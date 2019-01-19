@@ -86,6 +86,10 @@ var boomCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		if pid != -1 {
+			text = fmt.Sprintf("PID: %d", pid)
+		}
+
 		ba := NewBoomAA(text, offset, count)
 		ba.Run(pid, yes)
 	},
@@ -219,8 +223,8 @@ func (ba BoomAA) FinishBase() []string {
    ||, ～～'⌒⌒ヽ～-.､.|
    ||＼ '   ,⌒ ｀    ﾞヽ
    ||＼＼||￣|￣|￣|￣|||
-..    ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
-        ||￣￣￣￣￣￣||               ｄ⌒)  ./|  _ﾉ   __ﾉ`, "\n")
+..     ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
+         ||￣￣￣￣￣￣||               ｄ⌒)  ./|  _ﾉ   __ﾉ`, "\n")
 }
 
 func init() {
