@@ -104,7 +104,7 @@ type BoomAA struct {
 }
 
 func (ba BoomAA) Run(pid int, yes bool) {
-	d, _ := time.ParseDuration("1s")
+	d, _ := time.ParseDuration("0.1s")
 
 	line := 11
 
@@ -188,8 +188,12 @@ func NewBoomAA(text string, offset int, max int) BoomAA {
 }
 
 func (ba BoomAA) NextCountHead() []string {
+
+	cnt := ba.SeqNum % ((ba.Width - 28) / 10)
+	max := (ba.Width - 28) / 10
+
 	return []string{
-		fmt.Sprintf("                 __|...|     %s", strings.Repeat("ピッ・・・", ba.SeqNum%(29-ba.Width))),
+		fmt.Sprintf("                 __|...|     %s%s", strings.Repeat("ピッ・・・", cnt), strings.Repeat("        ", max-cnt)),
 		"...                |％| |",
 		ba.ThirdLine,
 	}
@@ -200,8 +204,11 @@ func (ba BoomAA) NextCount() []string {
 }
 
 func (ba BoomAA) NextFinish() []string {
+
+	cnt := (ba.Width - 29) / 2
+
 	return append([]string{
-		fmt.Sprintf("                 __|...|   ピ%s", strings.Repeat("ー", ba.Width/2-29)),
+		fmt.Sprintf("                 __|...|   ピ%s", strings.Repeat("ー", cnt)),
 		"...                |  | |",
 		ba.ThirdLine,
 	}, ba.FinishBase()...)
