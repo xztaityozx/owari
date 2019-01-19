@@ -104,7 +104,7 @@ type BoomAA struct {
 }
 
 func (ba BoomAA) Run(pid int, yes bool) {
-	d, _ := time.ParseDuration("0.1s")
+	d, _ := time.ParseDuration("1s")
 
 	line := 11
 
