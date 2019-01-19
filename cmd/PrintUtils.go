@@ -103,6 +103,15 @@ func PaddingPrint(text string, c int) {
 
 }
 
+func PaddingPrintNoColor(text string, c int) {
+	// パディング
+	for i := 0; i < c; i++ {
+		fmt.Printf(" ")
+	}
+
+	fmt.Println(text)
+}
+
 // 端末の幅を取る
 func GetWidth() int {
 	if reqWidth == "auto" {

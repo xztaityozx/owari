@@ -109,9 +109,9 @@ func (ba BoomAA) Run(pid int, yes bool) {
 	line := 11
 
 	for i := 0; i < ba.Max; i++ {
-		PaddingPrint(fmt.Sprintf("%d/%d", i+1, ba.Max), ba.Offset)
+		PaddingPrintNoColor(fmt.Sprintf("%d/%d", i+1, ba.Max), ba.Offset)
 		for _, v := range ba.NextCount() {
-			PaddingPrint(v, ba.Offset)
+			PaddingPrintNoColor(v, ba.Offset)
 		}
 		time.Sleep(d)
 
