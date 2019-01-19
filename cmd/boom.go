@@ -86,6 +86,10 @@ var boomCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		if pid != -1 {
+			text = fmt.Sprintf("PID: %d", pid)
+		}
+
 		ba := NewBoomAA(text, offset, count)
 		ba.Run(pid, yes)
 	},
@@ -105,9 +109,9 @@ func (ba BoomAA) Run(pid int, yes bool) {
 	line := 11
 
 	for i := 0; i < ba.Max; i++ {
-		PaddingPrint(fmt.Sprintf("%d/%d", i+1, ba.Max), ba.Offset)
+		PaddingPrintNoColor(fmt.Sprintf("%d/%d", i+1, ba.Max), ba.Offset)
 		for _, v := range ba.NextCount() {
-			PaddingPrint(v, ba.Offset)
+			PaddingPrintNoColor(v, ba.Offset)
 		}
 		time.Sleep(d)
 
@@ -170,7 +174,7 @@ func NewBoomAA(text string, offset int, max int) BoomAA {
 	upper := (15 - textLength) / 2
 	lower := upper
 
-	for upper+textLength+lower > 15 {
+	for upper+textLength+lower >= 15 {
 		lower--
 	}
 
@@ -219,8 +223,8 @@ func (ba BoomAA) FinishBase() []string {
    ||, ～～'⌒⌒ヽ～-.､.|
    ||＼ '   ,⌒ ｀    ﾞヽ
    ||＼＼||￣|￣|￣|￣|||
-..    ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
-        ||￣￣￣￣￣￣||               ｄ⌒)  ./|  _ﾉ   __ﾉ`, "\n")
+..     ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
+         ||￣￣￣￣￣￣||               ｄ⌒)  ./|  _ﾉ   __ﾉ`, "\n")
 }
 
 func init() {
