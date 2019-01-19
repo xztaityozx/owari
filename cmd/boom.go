@@ -174,7 +174,7 @@ func NewBoomAA(text string, offset int, max int) BoomAA {
 	upper := (15 - textLength) / 2
 	lower := upper
 
-	for upper+textLength+lower > 15 {
+	for upper+textLength+lower >= 15 {
 		lower--
 	}
 
