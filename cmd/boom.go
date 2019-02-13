@@ -23,19 +23,20 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/k0kubun/go-ansi"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	ansi "github.com/k0kubun/go-ansi"
+	"github.com/spf13/cobra"
 )
 
 // boomCmd represents the boom command
 var boomCmd = &cobra.Command{
 	Use:   "boom",
-	Short: "A brief description of your command",
+	Short: "ブーム君がおわるよ",
 	Long: `
 
                   __|...|     ピッ・・・ピッ・・・ピッ・・・
