@@ -22,8 +22,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -32,7 +33,7 @@ var rootCmd = &cobra.Command{
 	Short: "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
 	Long: `
 
-owari: The End ASCII Art Generator v1.5
+owari: The End ASCII Art Generator v1.6
 
        糸冬
 -------------------
