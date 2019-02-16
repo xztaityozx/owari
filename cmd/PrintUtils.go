@@ -2,9 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/fatih/color"
-	"github.com/k0kubun/go-ansi"
-	"golang.org/x/text/width"
 	"log"
 	"math/rand"
 	"os"
@@ -13,6 +10,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/fatih/color"
+	ansi "github.com/k0kubun/go-ansi"
+	"golang.org/x/text/width"
 )
 
 var FrontColors = []color.Attribute{
@@ -46,6 +47,9 @@ func GetLooksLength(text string) int {
 
 // AA を出力するところ
 func PrintAA(aa []string, padding int) {
+
+	// ShellGei-Bot対応
+	fmt.Println("")
 
 	length := len(aa)
 
