@@ -94,6 +94,10 @@ func PaddingPrint(text string, c int) {
 	rand.Seed(time.Now().UnixNano())
 
 	if colorful {
+		if colorful_always {
+			color.NoColor = false
+		}
+
 		// カラフルなやつ
 		for _, v := range []rune(text) {
 			idx := rand.Intn(len(FrontColors))
