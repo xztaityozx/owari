@@ -82,10 +82,8 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 	var AA []string
 	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(topString, maxLength/2)))
 	for _, t := range texts {
-		l := GetLooksLength(t)
-		if l < maxLength {
-			t = padSpace(t, maxLength)
-		}
+		// 看板の横幅に合わせて空白埋め
+		t = padSpace(t, maxLength)
 		s := fmt.Sprintf("|%s|", t)
 		AA = append(AA, s)
 	}
