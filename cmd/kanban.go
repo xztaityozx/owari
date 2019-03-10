@@ -21,6 +21,7 @@
 package cmd
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -60,51 +61,86 @@ func init() {
 }
 
 func PrintKanban(text string, offset int, gikoneko bool) {
-
 	if len(text) == 0 {
 		text = "終"
 	}
+	const topString = "￣"
+	const bottomString = "＿"
 
-	topString := "￣"
-	bottomString := "＿"
-
-	length := GetLooksLength(text)
-
-	if length%2 == 1 {
-		length++
-		text = " " + text
-	}
-
-	defaultLength := 6
-	upperLength := 6
-	lowerLength := 6
+	texts := strings.Split(text, "\n")
+	texts, textLen := makeLooksTexts(texts)
 
 	sideLength := 4
-	if length < defaultLength {
-		w := defaultLength - length
-		upperLength += w / 2
-		lowerLength += w / 2
-	} else {
-		sideLength = (length-10)/2 + upperLength
+	maxLength := 10
+	if maxLength < textLen+sideLength {
+		maxLength = textLen + sideLength
 	}
 
-	AA := []string{
-		"|" + strings.Repeat(topString, (upperLength+length+lowerLength)/2) + "|",
-		"|" + strings.Repeat(" ", upperLength) + text + strings.Repeat(" ", lowerLength) + "|",
-		"|" + strings.Repeat(" ", sideLength) + "制作・著作" + strings.Repeat(" ", sideLength) + "|",
-		"|  " + strings.Repeat(topString, sideLength+5-2) + "  |",
-		"|" + strings.Repeat(" ", sideLength) + " Ｎ Ｈ Ｋ " + strings.Repeat(" ", sideLength) + "|",
-		"|" + strings.Repeat(bottomString, (upperLength+length+lowerLength)/2) + "|",
+	boardPadFunc := func(t string, max int) string {
+		n := (max - 2) / 2
+		line := strings.Repeat(t, n)
+		return "|" + line + "|"
 	}
+
+	var AA []string
+	AA = append(AA, boardPadFunc(topString, maxLength))
+	for _, t := range texts {
+		s := fmt.Sprintf("| %s |", t)
+		AA = append(AA, s)
+	}
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength-2)))
+	AA = append(AA, boardPadFunc(topString, maxLength))
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength-2)))
+	AA = append(AA, boardPadFunc(bottomString, maxLength))
 
 	if gikoneko {
-		AA = append(AA, []string{
-			strings.Repeat(" ", sideLength-2) + " ∧∧  ||",
-			strings.Repeat(" ", sideLength-2) + "( ﾟдﾟ)||",
-			strings.Repeat(" ", sideLength-2) + "/　づΦ",
-		}...)
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧  ||", maxLength-2)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("( ﾟдﾟ)||", maxLength-2)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/　づΦ", maxLength-2)))
 	}
 
 	PrintAA(AA, offset)
+}
 
+func makeLooksTexts(ts []string) ([]string, int) {
+	maxLength := 0
+
+	var texts = ts[:]
+	for i := 0; i < len(texts); i++ {
+		t := texts[i]
+		l := GetLooksLength(t)
+
+		// もっとも長さの長い文字列の長さを取得
+		if maxLength < l {
+			maxLength = l
+		}
+
+		// 文字列の長さを偶数に統一するための空白埋め
+		if l%2 == 1 {
+			texts[i] = " " + t
+		}
+	}
+
+	// 文字列の長さを空白で埋めて一番長い文字列に合わせる
+	for i := 0; i < len(texts); i++ {
+		t := texts[i]
+		l := GetLooksLength(t)
+
+		if l < maxLength {
+			texts[i] = padSpace(t, maxLength)
+		}
+	}
+
+	return texts, maxLength
+}
+
+func padSpace(t string, max int) string {
+	l := GetLooksLength(t)
+	diff := max - l
+	padLen := diff / 2
+	var pad string
+	if 0 < padLen {
+		pad = strings.Repeat(" ", padLen)
+	}
+	return pad + t + pad
 }
