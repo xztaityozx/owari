@@ -38,7 +38,7 @@ const zenkaku = "　ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴ
 //   a  == 1
 //   あ == 2
 //   漢 == 2
-//   ｂ == 漢2
+//   ｂ == 2
 func GetLooksLength(text string) int {
 	length := 0
 	for _, v := range []rune(text) {
