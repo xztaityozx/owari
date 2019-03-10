@@ -33,7 +33,10 @@ var rootCmd = &cobra.Command{
 	Short: "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
 	Long: `
 
-owari: The End ASCII Art Generator v1.6
+owari: The End ASCII Art Generator v1.7 (2019/03/10)
+
+Repository: https://github.com/xztaityozx/owari
+Author: xztaityozx
 
        糸冬
 -------------------
