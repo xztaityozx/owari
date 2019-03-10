@@ -21,6 +21,9 @@
 package cmd
 
 import (
+	"bufio"
+	"fmt"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -48,6 +51,13 @@ var kanbanCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		offset, _ := cmd.Flags().GetInt("offset")
 		gikoneko, _ := cmd.Flags().GetBool("giko")
+		useStdin, _ := cmd.Flags().GetBool("stdin")
+
+		if useStdin {
+			lines := readStdin()
+			printKanban(lines, offset, gikoneko)
+			return
+		}
 
 		PrintKanban(strings.Join(args, " "), offset, gikoneko)
 	},
@@ -57,54 +67,117 @@ func init() {
 	rootCmd.AddCommand(kanbanCmd)
 	kanbanCmd.Flags().BoolP("giko", "g", false, "ギコ猫を付けます")
 	kanbanCmd.Flags().Int("offset", 0, "左端からの距離です")
+	kanbanCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
 }
 
 func PrintKanban(text string, offset int, gikoneko bool) {
-
 	if len(text) == 0 {
 		text = "終"
 	}
+	texts := []string{text}
+	printKanban(texts, offset, gikoneko)
+}
 
-	topString := "￣"
-	bottomString := "＿"
+func printKanban(texts []string, offset int, gikoneko bool) {
+	const topString = "￣"
+	const bottomString = "＿"
 
-	length := GetLooksLength(text)
+	// テキストを改行文字で分割し、最長文字列に合わせて空白詰め
+	// 最長文字列の長さも返す
+	texts, textLen := makePaddedText(texts)
 
-	if length%2 == 1 {
-		length++
-		text = " " + text
+	sideLength := 4 // テキストの横に確保しておきたい空白
+	maxLength := 18 // 看板の横幅
+	// デフォルト値よりも大きい問だけ幅を拡張する
+	if maxLength < textLen+sideLength {
+		maxLength = textLen + sideLength
 	}
 
-	defaultLength := 6
-	upperLength := 6
-	lowerLength := 6
-
-	sideLength := 4
-	if length < defaultLength {
-		w := defaultLength - length
-		upperLength += w / 2
-		lowerLength += w / 2
-	} else {
-		sideLength = (length-10)/2 + upperLength
+	var AA []string
+	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(topString, maxLength/2)))
+	for _, t := range texts {
+		// 看板の横幅に合わせて空白埋め
+		t = padSpace(t, maxLength)
+		s := fmt.Sprintf("|%s|", t)
+		AA = append(AA, s)
 	}
-
-	AA := []string{
-		"|" + strings.Repeat(topString, (upperLength+length+lowerLength)/2) + "|",
-		"|" + strings.Repeat(" ", upperLength) + text + strings.Repeat(" ", lowerLength) + "|",
-		"|" + strings.Repeat(" ", sideLength) + "制作・著作" + strings.Repeat(" ", sideLength) + "|",
-		"|  " + strings.Repeat(topString, sideLength+5-2) + "  |",
-		"|" + strings.Repeat(" ", sideLength) + " Ｎ Ｈ Ｋ " + strings.Repeat(" ", sideLength) + "|",
-		"|" + strings.Repeat(bottomString, (upperLength+length+lowerLength)/2) + "|",
-	}
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength)))
+	AA = append(AA, fmt.Sprintf("|  %s  |", strings.Repeat(topString, (maxLength/2)-2)))
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength)))
+	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(bottomString, maxLength/2)))
 
 	if gikoneko {
-		AA = append(AA, []string{
-			strings.Repeat(" ", sideLength-2) + " ∧∧  ||",
-			strings.Repeat(" ", sideLength-2) + "( ﾟдﾟ)||",
-			strings.Repeat(" ", sideLength-2) + "/　づΦ",
-		}...)
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧  ||", maxLength)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("( ﾟдﾟ)||", maxLength)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/　づΦ", maxLength)))
 	}
 
 	PrintAA(AA, offset)
+}
 
+func makePaddedText(ts []string) ([]string, int) {
+	if len(ts) < 1 {
+		return []string{}, 0
+	}
+
+	maxLength := 0
+
+	var texts = ts[:]
+	for i := 0; i < len(texts); i++ {
+		t := texts[i]
+		l := GetLooksLength(t)
+
+		// もっとも長さの長い文字列の長さを取得
+		if maxLength < l {
+			maxLength = l
+		}
+
+		// 文字列の長さを偶数に統一するための空白埋め
+		if l%2 == 1 {
+			texts[i] = " " + t
+		}
+	}
+
+	// 文字列の長さを空白で埋めて一番長い文字列に合わせる
+	for i := 0; i < len(texts); i++ {
+		t := texts[i]
+		l := GetLooksLength(t)
+
+		if l < maxLength {
+			texts[i] = padSpace(t, maxLength)
+		}
+	}
+
+	// 最長文字列自体は偶数に合わせているので
+	// もし奇数の最長値がセットされてたら修正
+	if maxLength%2 == 1 {
+		maxLength++
+	}
+
+	return texts, maxLength
+}
+
+// padSpace は前後を半角スペースで埋めた文字列を返す。
+// 文字列の長さは見た目上の長さで偶数でなければならない。
+func padSpace(t string, max int) string {
+	l := GetLooksLength(t)
+	diff := max - l
+	padLen := diff / 2
+	var pad string
+	if 0 < padLen {
+		pad = strings.Repeat(" ", padLen)
+	}
+	return pad + t + pad
+}
+
+func readStdin() (ret []string) {
+	sc := bufio.NewScanner(os.Stdin)
+	for sc.Scan() {
+		line := sc.Text()
+		ret = append(ret, line)
+	}
+	if err := sc.Err(); err != nil {
+		panic(err)
+	}
+	return
 }
