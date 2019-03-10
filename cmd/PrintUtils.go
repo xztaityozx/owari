@@ -31,6 +31,14 @@ var FrontColors = []color.Attribute{
 	color.FgHiYellow,
 }
 
+const zenkaku = "　ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ０１２３４５６７８９"
+
+// GetLooksLength は見た目上のテキストの長さを返す。
+// 例：
+//   a  == 1
+//   あ == 2
+//   漢 == 2
+//   ｂ == 漢2
 func GetLooksLength(text string) int {
 	length := 0
 	for _, v := range []rune(text) {
@@ -38,9 +46,13 @@ func GetLooksLength(text string) int {
 
 		if kind == width.EastAsianWide {
 			length += 2
-		} else {
-			length += 1
+			continue
 		}
+		if strings.Contains(zenkaku, string(v)) {
+			length += 2
+			continue
+		}
+		length += 1
 	}
 	return length
 }
