@@ -35,6 +35,9 @@ var rootCmd = &cobra.Command{
 
 owari: The End ASCII Art Generator v1.7 (2019/03/10)
 
+Repository: https://github.com/xztaityozx/owari
+Author: xztaityozx
+
        糸冬
 -------------------
  制作・著作 ＮＨＫ
