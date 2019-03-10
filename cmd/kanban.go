@@ -67,23 +67,20 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 	const topString = "￣"
 	const bottomString = "＿"
 
+	// テキストを改行文字で分割し、最長文字列に合わせて空白詰め
+	// 最長文字列の長さも返す
 	texts := strings.Split(text, "\n")
 	texts, textLen := makePaddedText(texts)
 
-	sideLength := 4
-	maxLength := 18
+	sideLength := 4 // テキストの横に確保しておきたい空白
+	maxLength := 18 // 看板の横幅
+	// デフォルト値よりも大きい問だけ幅を拡張する
 	if maxLength < textLen+sideLength {
 		maxLength = textLen + sideLength
 	}
 
-	boardPadFunc := func(t string, max int) string {
-		n := max / 2
-		line := strings.Repeat(t, n)
-		return "|" + line + "|"
-	}
-
 	var AA []string
-	AA = append(AA, boardPadFunc(topString, maxLength))
+	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(topString, maxLength/2)))
 	for _, t := range texts {
 		l := GetLooksLength(t)
 		if l < maxLength {
@@ -93,10 +90,9 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 		AA = append(AA, s)
 	}
 	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength)))
-	top := strings.Repeat(topString, (maxLength/2)-2)
-	AA = append(AA, fmt.Sprintf("|  %s  |", top))
+	AA = append(AA, fmt.Sprintf("|  %s  |", strings.Repeat(topString, (maxLength/2)-2)))
 	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength)))
-	AA = append(AA, boardPadFunc(bottomString, maxLength))
+	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(bottomString, maxLength/2)))
 
 	if gikoneko {
 		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧  ||", maxLength)))
