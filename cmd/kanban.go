@@ -71,7 +71,7 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 	texts, textLen := makePaddedText(texts)
 
 	sideLength := 4
-	maxLength := 16
+	maxLength := 18
 	if maxLength < textLen+sideLength {
 		maxLength = textLen + sideLength
 	}
@@ -93,7 +93,8 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 		AA = append(AA, s)
 	}
 	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength)))
-	AA = append(AA, boardPadFunc(topString, maxLength))
+	top := strings.Repeat(topString, (maxLength/2)-2)
+	AA = append(AA, fmt.Sprintf("|  %s  |", top))
 	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength)))
 	AA = append(AA, boardPadFunc(bottomString, maxLength))
 
