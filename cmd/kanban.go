@@ -68,16 +68,16 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 	const bottomString = "＿"
 
 	texts := strings.Split(text, "\n")
-	texts, textLen := makeLooksTexts(texts)
+	texts, textLen := makePaddedText(texts)
 
 	sideLength := 4
-	maxLength := 10
+	maxLength := 16
 	if maxLength < textLen+sideLength {
 		maxLength = textLen + sideLength
 	}
 
 	boardPadFunc := func(t string, max int) string {
-		n := (max - 2) / 2
+		n := max / 2
 		line := strings.Repeat(t, n)
 		return "|" + line + "|"
 	}
@@ -85,24 +85,32 @@ func PrintKanban(text string, offset int, gikoneko bool) {
 	var AA []string
 	AA = append(AA, boardPadFunc(topString, maxLength))
 	for _, t := range texts {
-		s := fmt.Sprintf("| %s |", t)
+		l := GetLooksLength(t)
+		if l < maxLength {
+			t = padSpace(t, maxLength)
+		}
+		s := fmt.Sprintf("|%s|", t)
 		AA = append(AA, s)
 	}
-	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength-2)))
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength)))
 	AA = append(AA, boardPadFunc(topString, maxLength))
-	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength-2)))
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength)))
 	AA = append(AA, boardPadFunc(bottomString, maxLength))
 
 	if gikoneko {
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧  ||", maxLength-2)))
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace("( ﾟдﾟ)||", maxLength-2)))
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/　づΦ", maxLength-2)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧  ||", maxLength)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("( ﾟдﾟ)||", maxLength)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/　づΦ", maxLength)))
 	}
 
 	PrintAA(AA, offset)
 }
 
-func makeLooksTexts(ts []string) ([]string, int) {
+func makePaddedText(ts []string) ([]string, int) {
+	if len(ts) < 1 {
+		return []string{}, 0
+	}
+
 	maxLength := 0
 
 	var texts = ts[:]
@@ -131,9 +139,17 @@ func makeLooksTexts(ts []string) ([]string, int) {
 		}
 	}
 
+	// 最長文字列自体は偶数に合わせているので
+	// もし奇数の最長値がセットされてたら修正
+	if maxLength%2 == 1 {
+		maxLength++
+	}
+
 	return texts, maxLength
 }
 
+// padSpace は前後を半角スペースで埋めた文字列を返す。
+// 文字列の長さは見た目上の長さで偶数でなければならない。
 func padSpace(t string, max int) string {
 	l := GetLooksLength(t)
 	diff := max - l
