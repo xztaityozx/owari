@@ -21,7 +21,9 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -49,6 +51,13 @@ var kanbanCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		offset, _ := cmd.Flags().GetInt("offset")
 		gikoneko, _ := cmd.Flags().GetBool("giko")
+		useStdin, _ := cmd.Flags().GetBool("stdin")
+
+		if useStdin {
+			lines := readStdin()
+			printKanban(lines, offset, gikoneko)
+			return
+		}
 
 		PrintKanban(strings.Join(args, " "), offset, gikoneko)
 	},
@@ -58,18 +67,23 @@ func init() {
 	rootCmd.AddCommand(kanbanCmd)
 	kanbanCmd.Flags().BoolP("giko", "g", false, "ギコ猫を付けます")
 	kanbanCmd.Flags().Int("offset", 0, "左端からの距離です")
+	kanbanCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
 }
 
 func PrintKanban(text string, offset int, gikoneko bool) {
 	if len(text) == 0 {
 		text = "終"
 	}
+	texts := []string{text}
+	printKanban(texts, offset, gikoneko)
+}
+
+func printKanban(texts []string, offset int, gikoneko bool) {
 	const topString = "￣"
 	const bottomString = "＿"
 
 	// テキストを改行文字で分割し、最長文字列に合わせて空白詰め
 	// 最長文字列の長さも返す
-	texts := strings.Split(text, "\n")
 	texts, textLen := makePaddedText(texts)
 
 	sideLength := 4 // テキストの横に確保しておきたい空白
@@ -154,4 +168,16 @@ func padSpace(t string, max int) string {
 		pad = strings.Repeat(" ", padLen)
 	}
 	return pad + t + pad
+}
+
+func readStdin() (ret []string) {
+	sc := bufio.NewScanner(os.Stdin)
+	for sc.Scan() {
+		line := sc.Text()
+		ret = append(ret, line)
+	}
+	if err := sc.Err(); err != nil {
+		panic(err)
+	}
+	return
 }
