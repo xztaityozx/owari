@@ -1,4 +1,4 @@
 language: go
 script:
   - cd ./cmd
-  - go test -v
+  - go test -v --cover
