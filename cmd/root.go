@@ -69,7 +69,7 @@ var duration string
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&colorful, "colorful", false, "カラフルにします")
 	rootCmd.PersistentFlags().BoolVarP(&colorful_always, "colorful-always", "C", false, "colorfulフラグ有効時、パイプやリダイレクト時にもCOLOR_CODEが適用されるよう強制します")
-	rootCmd.PersistentFlags().StringVarP(&reqWidth, "reqWidth", "w", "auto", "表示幅です．autoにすると端末幅を取得します")
+	rootCmd.PersistentFlags().StringVarP(&reqWidth, "width", "w", "auto", "表示幅です．autoにすると端末幅を取得します")
 	rootCmd.PersistentFlags().BoolVar(&overwrite, "overwrite", false, "複数回出力するときに同じ場所に上書きし続けます")
 	rootCmd.PersistentFlags().StringVarP(&count, "count", "n", "1", "指定回数出力します．infか-1を指定すると無限になります")
 	rootCmd.PersistentFlags().StringVar(&duration, "duration", "0.5s", "繰り返しのインターバルです")
