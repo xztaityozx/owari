@@ -13,7 +13,7 @@ import (
 
 	"github.com/fatih/color"
 	ansi "github.com/k0kubun/go-ansi"
-	"golang.org/x/text/width"
+	runewidth "github.com/mattn/go-runewidth"
 )
 
 var FrontColors = []color.Attribute{
@@ -40,21 +40,7 @@ const zenkaku = "　ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴ
 //   漢 == 2
 //   ｂ == 2
 func GetLooksLength(text string) int {
-	length := 0
-	for _, v := range []rune(text) {
-		kind := width.LookupRune(v).Kind()
-
-		if kind == width.EastAsianWide {
-			length += 2
-			continue
-		}
-		if strings.Contains(zenkaku, string(v)) {
-			length += 2
-			continue
-		}
-		length += 1
-	}
-	return length
+	return runewidth.StringWidth(text)
 }
 
 // AA を出力するところ
