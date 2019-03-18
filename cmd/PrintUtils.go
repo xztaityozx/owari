@@ -31,8 +31,6 @@ var FrontColors = []color.Attribute{
 	color.FgHiYellow,
 }
 
-const zenkaku = "　ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ０１２３４５６７８９"
-
 // GetLooksLength は見た目上のテキストの長さを返す。
 // 例：
 //   a  == 1
