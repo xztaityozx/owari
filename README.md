@@ -47,6 +47,7 @@ $ owari [global flags] [sub command] [sub flags]
     - sub flags:
         - `--giko` ギコ猫がつきます
         - `--offset int` 左端からの距離を指定できます
+        - `--stdin` 標準入力を受取ります
         
 ## ScreenShots
 ![](./img/big.PNG)
