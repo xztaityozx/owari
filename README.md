@@ -25,7 +25,8 @@ $ owari [global flags] [sub command] [sub flags]
 -   `-h, --help`              help for owari  
 -   `--offset int`        左からの距離です  
 -   `--overwrite`         複数回出力するときに同じ場所に上書きし続けます  
--   `-w, --reqWidth string`   表示幅です．autoにすると端末幅を取得します (default "auto")  
+-   `-w, --width string`   表示幅です．autoにすると端末幅を取得します (default "auto")  
+-   `-v, --version` バージョン情報を出力して終了します
 
 ### Sub Command
 - `big`
@@ -45,10 +46,13 @@ $ owari [global flags] [sub command] [sub flags]
     - 看板みたいなのが出ます．引数を与えると文字が置き換わります
     - alias: `kan`
     - sub flags:
-        - `--giko` ギコ猫がつきます
+        - `-g, --giko` ギコ猫がつきます
         - `--offset int` 左端からの距離を指定できます
-        - `--stdin` 標準入力を受取ります
-        
+        - `-i, --stdin` 標準入力を受取ります
+
+- `version`
+  - バージョン情報を出力して終了します
+
 ## ScreenShots
 ![](./img/big.PNG)
 
