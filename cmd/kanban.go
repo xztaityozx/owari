@@ -107,9 +107,9 @@ func printKanban(texts []string, offset int, gikoneko bool) {
 	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(bottomString, maxLength/2)))
 
 	if gikoneko {
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧  ||", maxLength)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧ ||", maxLength)))
 		AA = append(AA, fmt.Sprintf(" %s ", padSpace("( ﾟдﾟ)||", maxLength)))
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/　づΦ", maxLength)))
+		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/   づΦ", maxLength)))
 	}
 
 	PrintAA(AA, offset)
