@@ -52,14 +52,17 @@ var kanbanCmd = &cobra.Command{
 		offset, _ := cmd.Flags().GetInt("offset")
 		gikoneko, _ := cmd.Flags().GetBool("giko")
 		useStdin, _ := cmd.Flags().GetBool("stdin")
+		konata, _ := cmd.Flags().GetBool("konata")
+
+		gikoneko = gikoneko || konata
 
 		if useStdin {
 			lines := readStdin()
-			printKanban(lines, offset, gikoneko)
+			printKanban(lines, offset, gikoneko, konata)
 			return
 		}
 
-		PrintKanban(strings.Join(args, " "), offset, gikoneko)
+		PrintKanban(strings.Join(args, " "), offset, gikoneko, konata)
 	},
 }
 
@@ -68,17 +71,18 @@ func init() {
 	kanbanCmd.Flags().BoolP("giko", "g", false, "ギコ猫を付けます")
 	kanbanCmd.Flags().Int("offset", 0, "左端からの距離です")
 	kanbanCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
+	kanbanCmd.Flags().Bool("konata", false, "こなた")
 }
 
-func PrintKanban(text string, offset int, gikoneko bool) {
+func PrintKanban(text string, offset int, gikoneko, konata bool) {
 	if len(text) == 0 {
 		text = "終"
 	}
 	texts := []string{text}
-	printKanban(texts, offset, gikoneko)
+	printKanban(texts, offset, gikoneko, konata)
 }
 
-func printKanban(texts []string, offset int, gikoneko bool) {
+func printKanban(texts []string, offset int, gikoneko, konata bool) {
 	const topString = "￣"
 	const bottomString = "＿"
 
@@ -107,9 +111,17 @@ func printKanban(texts []string, offset int, gikoneko bool) {
 	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(bottomString, maxLength/2)))
 
 	if gikoneko {
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace(" ∧∧ ||", maxLength)))
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace("( ﾟдﾟ)||", maxLength)))
-		AA = append(AA, fmt.Sprintf(" %s ", padSpace("/   づΦ", maxLength)))
+
+		if konata {
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧  ||", maxLength-3)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("(≡ω≡.)||", maxLength-4)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("/     づΦ", maxLength-3)))
+		} else {
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧ ||", maxLength-2)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("( ﾟдﾟ)||", maxLength-2)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("/   づΦ", maxLength-2)))
+		}
+
 	}
 
 	PrintAA(AA, offset)
