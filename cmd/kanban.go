@@ -53,16 +53,17 @@ var kanbanCmd = &cobra.Command{
 		gikoneko, _ := cmd.Flags().GetBool("giko")
 		useStdin, _ := cmd.Flags().GetBool("stdin")
 		konata, _ := cmd.Flags().GetBool("konata")
+		author, _ := cmd.Flags().GetString("author")
 
 		gikoneko = gikoneko || konata
 
 		if useStdin {
 			lines := readStdin()
-			printKanban(lines, offset, gikoneko, konata)
+			printKanban(lines, offset, gikoneko, konata, author)
 			return
 		}
 
-		PrintKanban(strings.Join(args, " "), offset, gikoneko, konata)
+		PrintKanban(strings.Join(args, " "), offset, gikoneko, konata, author)
 	},
 }
 
@@ -75,21 +76,21 @@ func init() {
 	kanbanCmd.Flags().String("author", " Ｎ Ｈ Ｋ ", "制作/著作者を指定します")
 }
 
-func PrintKanban(text string, offset int, gikoneko, konata bool) {
+func PrintKanban(text string, offset int, gikoneko, konata bool, author string) {
 	if len(text) == 0 {
 		text = "終"
 	}
 	texts := []string{text}
-	printKanban(texts, offset, gikoneko, konata)
+	printKanban(texts, offset, gikoneko, konata, author)
 }
 
-func printKanban(texts []string, offset int, gikoneko, konata bool) {
+func printKanban(texts []string, offset int, gikoneko, konata bool, author string) {
 	const topString = "￣"
 	const bottomString = "＿"
 
 	// テキストを改行文字で分割し、最長文字列に合わせて空白詰め
 	// 最長文字列の長さも返す
-	texts, textLen := makePaddedText(texts)
+	texts, textLen, author := makePaddedText(texts, author)
 
 	sideLength := 4 // テキストの横に確保しておきたい空白
 	maxLength := 18 // 看板の横幅
@@ -108,7 +109,7 @@ func printKanban(texts []string, offset int, gikoneko, konata bool) {
 	}
 	AA = append(AA, fmt.Sprintf("|%s|", padSpace("制作・著作", maxLength)))
 	AA = append(AA, fmt.Sprintf("|  %s  |", strings.Repeat(topString, (maxLength/2)-2)))
-	AA = append(AA, fmt.Sprintf("|%s|", padSpace(" Ｎ Ｈ Ｋ ", maxLength)))
+	AA = append(AA, fmt.Sprintf("|%s|", padSpace(author, maxLength)))
 	AA = append(AA, fmt.Sprintf("|%s|", strings.Repeat(bottomString, maxLength/2)))
 
 	if gikoneko {
@@ -128,12 +129,12 @@ func printKanban(texts []string, offset int, gikoneko, konata bool) {
 	PrintAA(AA, offset)
 }
 
-func makePaddedText(ts []string) ([]string, int) {
+func makePaddedText(ts []string, author string) ([]string, int, string) {
 	if len(ts) < 1 {
-		return []string{}, 0
+		return []string{}, 0, author
 	}
 
-	maxLength := 0
+	maxLength := GetLooksLength(author)
 
 	var texts = ts[:]
 	for i := 0; i < len(texts); i++ {
@@ -167,7 +168,12 @@ func makePaddedText(ts []string) ([]string, int) {
 		maxLength++
 	}
 
-	return texts, maxLength
+	// author も偶数文字長へ調整
+	if GetLooksLength(author)%2 == 1 {
+		author = " " + author
+	}
+
+	return texts, maxLength, author
 }
 
 // padSpace は前後を半角スペースで埋めた文字列を返す。
