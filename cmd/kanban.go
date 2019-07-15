@@ -73,7 +73,7 @@ func init() {
 	kanbanCmd.Flags().Int("offset", 0, "左端からの距離です")
 	kanbanCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
 	kanbanCmd.Flags().Bool("konata", false, "こなた")
-	kanbanCmd.Flags().String("author", " Ｎ Ｈ Ｋ ", "制作/著作者を指定します")
+	kanbanCmd.Flags().StringP("author", "a", " Ｎ Ｈ Ｋ ", "制作/著作者を指定します")
 }
 
 func PrintKanban(text string, offset int, gikoneko, konata bool, author string) {

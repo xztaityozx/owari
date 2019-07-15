@@ -44,8 +44,8 @@ type Version struct {
 
 var owariVersion = Version{
 	Major:  1,
-	Minor:  9,
-	Date:   "2019/06/02",
+	Minor:  10,
+	Date:   "2019/07/15",
 	Status: "Development",
 }
 
