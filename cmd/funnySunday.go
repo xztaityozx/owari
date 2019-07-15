@@ -21,50 +21,33 @@
 package cmd
 
 import (
-	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-// versionCmd represents the version command
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "バージョン情報を出力して終了します",
+// funnySundayCmd represents the funnySunday command
+var funnySundayCmd = &cobra.Command{
+	Use:     "funnySunday",
+	Aliases: []string{"fs", "fun"},
+	Short:   "楽しい休日は終わった",
 	Run: func(cmd *cobra.Command, args []string) {
-		owariVersion.Print()
+		aa := `たのしい休日
+
+                           /||￣￣|| ∧∧
+                          l ||＿＿||(,/⌒ヽ
+                         [l  | ,,― とﾉ    ヽ
+                    |￣￣￣￣￣     (＿＿＿ )
+
+                                          ┼ヽ   -|r‐､.  ﾚ  |
+                                         ｄ⌒)  ./| _ﾉ    __ﾉ`
+
+		offset, _ := cmd.Flags().GetInt("offset")
+		PrintAA(strings.Split(aa, "\n"), offset)
 	},
 }
 
-type Version struct {
-	Major  int
-	Minor  int
-	Date   string
-	Status string
-}
-
-var owariVersion = Version{
-	Major:  1,
-	Minor:  10,
-	Date:   "2019/07/15",
-	Status: "Development",
-}
-
-func (v Version) Print() {
-	fmt.Printf("owari: The End ASCII Art Generator v%d.%d %s(%s)\n", v.Major, v.Minor, v.Status, v.Date)
-	fmt.Println("Author: xztaityozx")
-	fmt.Println("Repository: https://github.com/xztaityozx/owari")
-}
-
 func init() {
-	rootCmd.AddCommand(versionCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// versionCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// versionCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.AddCommand(funnySundayCmd)
+	funnySundayCmd.Flags().Int("offset", 0, "左側からの距離です")
 }
