@@ -42,7 +42,8 @@ var defaultCmd = &cobra.Command{
 引数を与えると「糸冬」の部分に置き換わります`,
 	Run: func(cmd *cobra.Command, args []string) {
 		offset, _ := cmd.Flags().GetInt("offset")
-		PrintDefault(strings.Join(args, " "), offset)
+
+		PrintDefault(strings.Split(strings.Join(args, " "), newline)[0], offset)
 	},
 }
 

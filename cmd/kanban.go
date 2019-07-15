@@ -80,7 +80,7 @@ func PrintKanban(text string, offset int, gikoneko, konata bool, author string) 
 	if len(text) == 0 {
 		text = "終"
 	}
-	texts := []string{text}
+	texts := strings.Split(text, newline)
 	printKanban(texts, offset, gikoneko, konata, author)
 }
 
