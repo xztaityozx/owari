@@ -23,6 +23,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -66,6 +67,7 @@ var colorful, colorful_always, overwrite bool
 var reqWidth string
 var count string
 var duration string
+var newline string
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&colorful, "colorful", false, "カラフルにします")
@@ -77,4 +79,12 @@ func init() {
 	rootCmd.Flags().Int("offset", 0, "左からの距離です")
 
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "バージョン情報を出力して終了します")
+
+	if runtime.GOOS == "windows" {
+		newline = "\r\n"
+	} else if runtime.GOOS == "darwin" {
+		newline = "\r"
+	} else {
+		newline = "\n"
+	}
 }
