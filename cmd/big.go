@@ -22,8 +22,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"strings"
+	"time"
+
+	"github.com/spf13/cobra"
 )
 
 var BigAA = `
@@ -55,6 +57,35 @@ var BigAA = `
           終終                        了了了了
 `
 
+var BigHolly = `
+          柊柊了            了了了
+          柊柊了            了柊了
+          柊柊了            柊柊了
+          柊柊了          了柊柊了了了了柊柊了
+          柊柊了          了柊柊柊柊柊柊柊柊柊了
+  柊柊柊柊柊柊柊柊柊了  了柊柊了了了了了柊柊柊
+  柊柊柊柊柊柊柊柊柊了  了柊柊柊      了柊柊了
+  了了了了柊柊了了了  了柊柊了柊了  了柊柊柊
+        了柊柊柊  了柊柊了了柊柊了柊柊柊了
+        柊柊柊柊了  了柊了    了柊柊柊柊了
+      了柊柊柊柊柊了  了        了柊柊柊
+      了柊柊柊了柊柊了          了柊柊了了
+    了柊柊柊柊了柊柊柊了    了了柊柊柊柊柊了
+    柊柊柊柊柊了了柊柊了了柊柊柊柊了柊柊柊柊柊柊了了
+  柊柊了  柊柊了  了了柊柊柊柊了了    了柊柊柊柊柊了
+了柊柊    柊柊了  了了柊柊柊了了柊了了了了柊柊柊柊了
+柊柊了    柊柊了  了了柊柊了  了柊柊柊柊了了了了了
+  柊      柊柊了    了了了    了柊柊柊柊柊柊了
+          柊柊了              了了柊柊柊柊了
+          柊柊了          了      了柊柊了
+          柊柊了        了柊柊了了了
+          柊柊了        了柊柊柊柊柊了了
+          柊柊了        了柊柊柊柊柊柊柊柊了了
+          柊柊了            了了柊柊柊柊柊柊柊了
+          柊柊了                  了柊柊柊柊柊了
+          柊柊了                      了了了了
+`
+
 // bigCmd represents the big command
 var bigCmd = &cobra.Command{
 	Use:   "big",
@@ -75,9 +106,15 @@ func init() {
 func PrintBig(text string, offset int) {
 
 	status := len(text) == 0
+	t := time.Now()
+	baseAA := BigAA
+
+	if t.Month() == 12 && t.Day() == 25 {
+		baseAA = BigHolly
+	}
 
 	if status {
-		PrintAA(strings.Split(BigAA, "\n"), offset)
+		PrintAA(strings.Split(baseAA, "\n"), offset)
 		return
 	}
 
@@ -87,13 +124,13 @@ func PrintBig(text string, offset int) {
 
 	var aa []string
 
-	for _, line := range strings.Split(BigAA, "\n") {
+	for _, line := range strings.Split(baseAA, "\n") {
 		if status {
 			PaddingPrint(line, offset)
 		} else {
 			var replaced []rune
 			for _, c := range []rune(line) {
-				if c == rune('終') || c == rune('了') {
+				if c == rune('終') || c == rune('了') || c == rune('柊') {
 					replaced = append(replaced, runeText[textIdx])
 					textIdx = (textIdx + 1) % maxLength
 				} else {
