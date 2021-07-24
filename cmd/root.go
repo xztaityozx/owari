@@ -30,25 +30,25 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "owari",
-	Short: "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
+	Use:     "owari",
+	Short:   "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
+	Version: "1.11",
 	Long: `
+author: xztaityozx
+repository: https://github.com/xztaityozx/owari
+
 
        糸冬
 -------------------
  制作・著作 ＮＨＫ
 
-を出力します
+を出力するよ。ほかにもいろいろあるよ。
+
+
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-
-		v, _ := cmd.PersistentFlags().GetBool("version")
-		if v {
-			owariVersion.Print()
-			return
-		}
 
 		// デフォルトを呼ぶ
 		offset, _ := cmd.Flags().GetInt("offset")
@@ -77,8 +77,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&count, "count", "n", "1", "指定回数出力します．infか-1を指定すると無限になります")
 	rootCmd.PersistentFlags().StringVar(&duration, "duration", "0.5s", "繰り返しのインターバルです")
 	rootCmd.Flags().Int("offset", 0, "左からの距離です")
-
-	rootCmd.PersistentFlags().BoolP("version", "v", false, "バージョン情報を出力して終了します")
 
 	if runtime.GOOS == "windows" {
 		newline = "\r\n"
