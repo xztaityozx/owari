@@ -89,8 +89,8 @@ func PaddingPrint(text string, c int) {
 	// 色の乱数，SEEDは時間
 	rand.Seed(time.Now().UnixNano())
 
-	if colorful || colorful_always {
-		if colorful_always {
+	if colorful || colorfulAlways {
+		if colorfulAlways {
 			color.NoColor = false
 		}
 
