@@ -31,27 +31,20 @@ $ owari [global flags] [sub command] [sub flags]
 ### Sub Command
 - `big`
     - 大きな「終」を出力します．引数を与えると文字が置き換わります
-    - sub flags:
-        - `--offset int` 左端からの距離を指定できます
 - `default`
     - 某終了のロゴがでます．引数を与えると文字が置き換わります
     - alias: `def`
-    - sub flags:
-        - `--offset int` 右端からの距離を指定できます
-
 - `help`
     - ヘルプを出力して終わります
-
 - `kanban`
     - 看板みたいなのが出ます．引数を与えると文字が置き換わります
     - alias: `kan`
-    - sub flags:
-        - `-g, --giko` ギコ猫がつきます
-        - `--offset int` 左端からの距離を指定できます
-        - `-i, --stdin` 標準入力を受取ります
-
-- `version`
-  - バージョン情報を出力して終了します
+- `grave`
+    - 先祖代々のお墓を出力します
+- `funnySunday`
+    - 楽しい休日も終わってしまいました
+- `completion`
+    - 各シェルにあった補完スクリプトをSTDOUTに出力します
 
 ## ScreenShots
 ![](./img/big.PNG)
