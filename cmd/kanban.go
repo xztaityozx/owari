@@ -35,15 +35,17 @@ var kanbanCmd = &cobra.Command{
 	Aliases: []string{"kan"},
 	Short:   "看板を持ちます",
 	Long: `
+
 |￣￣￣￣￣￣￣￣￣|
-|　　　　終　　　　|
-|　  制作・著作  　|
+|        終        |
+|    制作・著作    |
 |  ￣￣￣￣￣￣￣  |
 |     Ｎ Ｈ Ｋ     |
 |＿＿＿＿＿＿＿＿＿|
    ∧∧  ||
   ( ﾟдﾟ)||
-  /　づΦ
+  /    づΦ
+
 
 看板がでます
 引数を与えると「終」の部分が変わります
@@ -115,13 +117,13 @@ func printKanban(texts []string, offset int, gikoneko, konata bool, author strin
 	if gikoneko {
 
 		if konata {
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧  ||", maxLength-3)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("(≡ω≡.)||", maxLength-4)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("/     づΦ", maxLength-3)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧ ∧   ||", maxLength-8)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("(≡ω≡.)||", maxLength-10)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("/      づΦ", maxLength-6)))
 		} else {
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧ ||", maxLength-2)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("( ﾟдﾟ)||", maxLength-2)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("/   づΦ", maxLength-2)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧  ||", maxLength-6)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("( ﾟдﾟ)||", maxLength-7)))
+			AA = append(AA, fmt.Sprintf("%s ", padSpace("/    づΦ", maxLength-5)))
 		}
 
 	}
