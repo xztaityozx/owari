@@ -89,13 +89,13 @@ func PaddingPrint(text string, c int) {
 	// 色の乱数，SEEDは時間
 	rand.Seed(time.Now().UnixNano())
 
-	if colorful || colorful_always {
-		if colorful_always {
+	if colorful || colorfulAlways {
+		if colorfulAlways {
 			color.NoColor = false
 		}
 
 		// カラフルなやつ
-		for _, v := range []rune(text) {
+		for _, v := range text {
 			idx := rand.Intn(len(FrontColors))
 			p := color.New(FrontColors[idx])
 			p.Printf("%c", v)

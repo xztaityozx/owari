@@ -5,16 +5,15 @@ import "testing"
 func TestMakePaddedText(t *testing.T) {
 	type TestData struct {
 		texts    []string
-		ret      []string
 		author   string
 		length   int
 		rtAuthor string
 	}
 	testDatas := []TestData{
-		{texts: []string{"a", "bbbbb"}, author: "x", ret: []string{"   a  ", " bbbbb"}, length: 6, rtAuthor: " x"},
-		{texts: []string{"あいう", "えお"}, author: "x", ret: []string{"あいう", " えお "}, length: 6, rtAuthor: " x"},
-		{texts: []string{"", ""}, author: "", ret: []string{"", ""}, length: 0, rtAuthor: ""},
-		{texts: []string{}, author: "", ret: []string{}, length: 0, rtAuthor: ""},
+		{texts: []string{"a", "bbbbb"}, author: "x", length: 6, rtAuthor: " x"},
+		{texts: []string{"あいう", "えお"}, author: "x", length: 6, rtAuthor: " x"},
+		{texts: []string{"", ""}, author: "", length: 0, rtAuthor: ""},
+		{texts: []string{}, author: "", length: 0, rtAuthor: ""},
 	}
 	for _, v := range testDatas {
 		ret, l, ra := makePaddedText(v.texts, v.author)
