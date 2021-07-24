@@ -95,7 +95,7 @@ func PaddingPrint(text string, c int) {
 		}
 
 		// カラフルなやつ
-		for _, v := range []rune(text) {
+		for _, v := range text {
 			idx := rand.Intn(len(FrontColors))
 			p := color.New(FrontColors[idx])
 			p.Printf("%c", v)
