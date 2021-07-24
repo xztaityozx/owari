@@ -137,7 +137,7 @@ func (ba BoomAA) Run(pid int, yes bool) {
 			ansi.CursorUp(1)
 		}
 		if status {
-			p.Kill()
+			_ = p.Kill()
 		}
 	}
 

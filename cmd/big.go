@@ -129,7 +129,7 @@ func PrintBig(text string, offset int) {
 			PaddingPrint(line, offset)
 		} else {
 			var replaced []rune
-			for _, c := range []rune(line) {
+			for _, c := range line {
 				if c == rune('終') || c == rune('了') || c == rune('柊') || c == rune('木') {
 					replaced = append(replaced, runeText[textIdx])
 					textIdx = (textIdx + 1) % maxLength
