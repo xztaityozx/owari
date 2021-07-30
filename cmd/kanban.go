@@ -55,17 +55,18 @@ var kanbanCmd = &cobra.Command{
 		gikoneko, _ := cmd.Flags().GetBool("giko")
 		useStdin, _ := cmd.Flags().GetBool("stdin")
 		konata, _ := cmd.Flags().GetBool("konata")
+		textimg, _ := cmd.Flags().GetBool("textimg")
 		author, _ := cmd.Flags().GetString("author")
 
 		gikoneko = gikoneko || konata
 
 		if useStdin {
 			lines := readStdin()
-			printKanban(lines, offset, gikoneko, konata, author)
+			printKanban(lines, offset, gikoneko, konata, textimg, author)
 			return
 		}
 
-		PrintKanban(strings.Join(args, " "), offset, gikoneko, konata, author)
+		PrintKanban(strings.Join(args, " "), offset, gikoneko, konata, textimg, author)
 	},
 }
 
@@ -75,18 +76,19 @@ func init() {
 	kanbanCmd.Flags().Int("offset", 0, "左端からの距離です")
 	kanbanCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
 	kanbanCmd.Flags().Bool("konata", false, "こなた")
+	kanbanCmd.Flags().BoolP("textimg", "t", false, "textimg用に出力を整えます")
 	kanbanCmd.Flags().StringP("author", "a", " Ｎ Ｈ Ｋ ", "制作/著作者を指定します")
 }
 
-func PrintKanban(text string, offset int, gikoneko, konata bool, author string) {
+func PrintKanban(text string, offset int, gikoneko, konata, textimg bool, author string) {
 	if len(text) == 0 {
 		text = "終"
 	}
 	texts := strings.Split(text, newline)
-	printKanban(texts, offset, gikoneko, konata, author)
+	printKanban(texts, offset, gikoneko, konata, textimg, author)
 }
 
-func printKanban(texts []string, offset int, gikoneko, konata bool, author string) {
+func printKanban(texts []string, offset int, gikoneko, konata, textimg bool, author string) {
 	const topString = "￣"
 	const bottomString = "＿"
 
@@ -117,13 +119,25 @@ func printKanban(texts []string, offset int, gikoneko, konata bool, author strin
 	if gikoneko {
 
 		if konata {
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧ ∧   ||", maxLength-8)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("(≡ω≡.)||", maxLength-10)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("/      づΦ", maxLength-6)))
+			if textimg {
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("∧ ∧    ||", maxLength-8)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("(≡ω≡.)||", maxLength-10)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("/     づΦ", maxLength-6)))
+			} else {
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("∧ ∧   ||", maxLength-8)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("(≡ω≡.)||", maxLength-10)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("/      づΦ", maxLength-6)))
+			}
 		} else {
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧  ||", maxLength-6)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("( ﾟдﾟ)||", maxLength-7)))
-			AA = append(AA, fmt.Sprintf("%s ", padSpace("/    づΦ", maxLength-5)))
+			if textimg {
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧   ||", maxLength-5)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("( ﾟдﾟ)||", maxLength-7)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("/    づΦ", maxLength-5)))
+			} else {
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("∧∧  ||", maxLength-6)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("( ﾟдﾟ)||", maxLength-7)))
+				AA = append(AA, fmt.Sprintf("%s ", padSpace("/    づΦ", maxLength-5)))
+			}
 		}
 
 	}
