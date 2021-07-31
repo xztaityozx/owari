@@ -52,8 +52,7 @@ $ owari [global flags] [sub command] [sub flags]
 ![](./img/big2.PNG)
 
 ![](./img/big3.PNG)
-        
-        
+
 ## Contribute
 AAを増やしてほしい時は，Pull RequestかIssueをお願いします
 
