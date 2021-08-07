@@ -127,14 +127,10 @@ func init() {
 	rootCmd.PersistentFlags().BoolP("colorful-always", "C", false, "colorfulフラグが有効なとき、パイプやリダイレクト時にもCOLOR＿CODEが適用されるよう強制します")
 	rootCmd.PersistentFlags().StringP("width", "w", "auto", "表示幅です。autoにすると端末の幅を取得します")
 	_ = rootCmd.PersistentFlags().MarkDeprecated("width", "AAの最大幅を指定することはできなくなりました")
-
-	rootCmd.PersistentFlags().Bool("overwrite", false, "複数回出力するときに同じ場所に上書きし続けます")
+	rootCmd.PersistentFlags().BoolP("overwrite", "o", false, "複数回出力するときに同じ場所に上書きし続けます")
 	rootCmd.PersistentFlags().StringP("count", "n", "1", "指定回数繰り返します。負数かinfを指定すると無限になります")
-
 	defaultDuration, _ := time.ParseDuration("0.5s")
-	rootCmd.PersistentFlags().Duration("duration", defaultDuration, "繰り返しのインターバルです")
-
+	rootCmd.PersistentFlags().DurationP("duration", "d", defaultDuration, "繰り返しのインターバルです")
 	rootCmd.PersistentFlags().Int("offset", 0, "左からの距離です")
-
 	rootCmd.PersistentFlags().BoolP("insert-empty", "E", true, "出力の1行目に必ず空白行を挿入します")
 }
