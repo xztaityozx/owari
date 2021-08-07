@@ -47,40 +47,53 @@ repository: https://github.com/xztaityozx/owari
 
 
 `,
+	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
+		return os.Stdout.Close()
+	},
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// 全体で使うaa.Writerを作る
 		writer = aa.NewWriter(os.Stdout)
-		cf, err := cmd.PersistentFlags().GetBool("colorful")
+		cf, err := cmd.Flags().GetBool("colorful")
 		if err != nil {
 			return err
 		}
-		cfa, err := cmd.PersistentFlags().GetBool("colorful-always")
+
+		cfa, err := cmd.Flags().GetBool("colorful-always")
 		if err != nil {
 			return err
 		}
-		overwrite, err := cmd.PersistentFlags().GetBool("overwrite")
+
+		overwrite, err := cmd.Flags().GetBool("overwrite")
 		if err != nil {
 			return err
 		}
-		d, err := cmd.PersistentFlags().GetDuration("duration")
+
+		d, err := cmd.Flags().GetDuration("duration")
 		if err != nil {
 			return err
 		}
+
 		c, err := func() (int, error) {
-			count, err := cmd.PersistentFlags().GetString("count")
-			if count == "inf" {
-				return -1, err
+			count, err := cmd.Flags().GetString("count")
+			if err != nil {
+				return 0, err
 			}
-			return strconv.Atoi(count)
+			if count == "inf" {
+				return -1, nil
+			}
+			rt, err := strconv.Atoi(count)
+			return rt, nil
 		}()
 		if err != nil {
 			return err
 		}
-		offset, err := cmd.PersistentFlags().GetInt("offset")
+
+		offset, err := cmd.Flags().GetInt("offset")
 		if err != nil {
 			return err
 		}
-		ie, err := cmd.PersistentFlags().GetBool("insert-empty")
+
+		ie, err := cmd.Flags().GetBool("insert-empty")
 		if err != nil {
 			return err
 		}
@@ -94,9 +107,6 @@ repository: https://github.com/xztaityozx/owari
 		writer.SetInsertEmpty(ie)
 
 		return nil
-	},
-	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
-		return os.Stdout.Close()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		defaultCmd.Run(cmd, args)
