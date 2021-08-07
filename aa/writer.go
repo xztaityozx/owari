@@ -176,6 +176,8 @@ var FrontColors = []color.Attribute{
 
 // getRandomColor はランダムに色を選んで color.Color を返す
 func (w *Writer) getRandomColor() *color.Color {
-	color.NoColor = !w.colorfulAlways
+	if w.colorfulAlways {
+		color.NoColor = false
+	}
 	return color.New(FrontColors[rand.Intn(len(FrontColors))])
 }
