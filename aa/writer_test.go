@@ -77,12 +77,12 @@ func (suite *SetterTestSuite) Test_Writer_SetOverwrite_To_True() {
 }
 
 func (suite *SetterTestSuite) Test_Writer_SetBeginEmpty_To_True() {
-	suite.w.SetBeginEmpty(true)
+	suite.w.SetInsertEmpty(true)
 	suite.True(suite.w.beginEmpty, "beginEmptyがtrueであるべき")
 }
 
 func (suite *SetterTestSuite) Test_Writer_SetBeginEmpty_To_False() {
-	suite.w.SetBeginEmpty(false)
+	suite.w.SetInsertEmpty(false)
 	suite.False(suite.w.beginEmpty, "beginEmptyがfalseであるべき")
 }
 

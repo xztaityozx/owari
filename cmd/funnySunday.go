@@ -20,34 +20,35 @@
 
 package cmd
 
-import (
-	"strings"
-
-	"github.com/spf13/cobra"
-)
-
-// funnySundayCmd represents the funnySunday command
-var funnySundayCmd = &cobra.Command{
-	Use:     "funnySunday",
-	Aliases: []string{"fs", "fun"},
-	Short:   "楽しい休日は終わった",
-	Run: func(cmd *cobra.Command, args []string) {
-		aa := `たのしい休日
-
-                           /||￣￣|| ∧∧
-                          l ||＿＿||(,/⌒ヽ
-                         [l  | ,,― とﾉ    ヽ
-                    |￣￣￣￣￣     (＿＿＿ )
-
-                                          ┼ヽ   -|r‐､.  ﾚ  |
-                                         ｄ⌒)  ./| _ﾉ    __ﾉ`
-
-		offset, _ := cmd.Flags().GetInt("offset")
-		PrintAA(strings.Split(aa, "\n"), offset)
-	},
-}
-
-func init() {
-	rootCmd.AddCommand(funnySundayCmd)
-	funnySundayCmd.Flags().Int("offset", 0, "左側からの距離です")
-}
+//
+//import (
+//	"strings"
+//
+//	"github.com/spf13/cobra"
+//)
+//
+//// funnySundayCmd represents the funnySunday command
+//var funnySundayCmd = &cobra.Command{
+//	Use:     "funnySunday",
+//	Aliases: []string{"fs", "fun"},
+//	Short:   "楽しい休日は終わった",
+//	Run: func(cmd *cobra.Command, args []string) {
+//		aa := `たのしい休日
+//
+//                           /||￣￣|| ∧∧
+//                          l ||＿＿||(,/⌒ヽ
+//                         [l  | ,,― とﾉ    ヽ
+//                    |￣￣￣￣￣     (＿＿＿ )
+//
+//                                          ┼ヽ   -|r‐､.  ﾚ  |
+//                                         ｄ⌒)  ./| _ﾉ    __ﾉ`
+//
+//		offset, _ := cmd.Flags().GetInt("offset")
+//		PrintAA(strings.Split(aa, "\n"), offset)
+//	},
+//}
+//
+//func init() {
+//	rootCmd.AddCommand(funnySundayCmd)
+//	funnySundayCmd.Flags().Int("offset", 0, "左側からの距離です")
+//}

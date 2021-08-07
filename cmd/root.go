@@ -22,17 +22,18 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"runtime"
-
 	"github.com/spf13/cobra"
+	"github.com/xztaityozx/owari/aa"
+	"os"
+	"strconv"
+	"time"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "owari",
 	Short:   "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
-	Version: "1.11",
+	Version: "2.0",
 	Long: `
 author: xztaityozx
 repository: https://github.com/xztaityozx/owari
@@ -46,13 +47,59 @@ repository: https://github.com/xztaityozx/owari
 
 
 `,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) {
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		// 全体で使うaa.Writerを作る
+		writer = aa.NewWriter(os.Stdout)
+		cf, err := cmd.PersistentFlags().GetBool("colorful")
+		if err != nil {
+			return err
+		}
+		cfa, err := cmd.PersistentFlags().GetBool("colorful-always")
+		if err != nil {
+			return err
+		}
+		overwrite, err := cmd.PersistentFlags().GetBool("overwrite")
+		if err != nil {
+			return err
+		}
+		d, err := cmd.PersistentFlags().GetDuration("duration")
+		if err != nil {
+			return err
+		}
+		c, err := func() (int, error) {
+			count, err := cmd.PersistentFlags().GetString("count")
+			if count == "inf" {
+				return -1, err
+			}
+			return strconv.Atoi(count)
+		}()
+		if err != nil {
+			return err
+		}
+		offset, err := cmd.PersistentFlags().GetInt("offset")
+		if err != nil {
+			return err
+		}
+		ie, err := cmd.PersistentFlags().GetBool("insert-empty")
+		if err != nil {
+			return err
+		}
 
-		// デフォルトを呼ぶ
-		offset, _ := cmd.Flags().GetInt("offset")
-		PrintDefault("", offset)
+		writer.SetTimes(c)
+		writer.SetColorfulAlways(cfa)
+		writer.SetColorful(cf || cfa)
+		writer.SetDuration(d)
+		writer.SetOverwrite(overwrite)
+		writer.SetOffset(offset)
+		writer.SetInsertEmpty(ie)
+
+		return nil
+	},
+	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
+		return os.Stdout.Close()
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		defaultCmd.Run(cmd, args)
 	},
 }
 
@@ -63,26 +110,21 @@ func Execute() {
 	}
 }
 
-var colorful, colorfulAlways, overwrite bool
-var reqWidth string
-var count string
-var duration string
-var newline string
+var writer aa.Writer
 
 func init() {
-	rootCmd.PersistentFlags().BoolVar(&colorful, "colorful", false, "カラフルにします")
-	rootCmd.PersistentFlags().BoolVarP(&colorfulAlways, "colorful-always", "C", false, "colorfulフラグ有効時、パイプやリダイレクト時にもCOLOR_CODEが適用されるよう強制します")
-	rootCmd.PersistentFlags().StringVarP(&reqWidth, "width", "w", "auto", "表示幅です．autoにすると端末幅を取得します")
-	rootCmd.PersistentFlags().BoolVar(&overwrite, "overwrite", false, "複数回出力するときに同じ場所に上書きし続けます")
-	rootCmd.PersistentFlags().StringVarP(&count, "count", "n", "1", "指定回数出力します．infか-1を指定すると無限になります")
-	rootCmd.PersistentFlags().StringVar(&duration, "duration", "0.5s", "繰り返しのインターバルです")
-	rootCmd.Flags().Int("offset", 0, "左からの距離です")
+	rootCmd.PersistentFlags().BoolP("colorful", "c", false, "カラフルにします")
+	rootCmd.PersistentFlags().BoolP("colorful-always", "C", false, "colorfulフラグが有効なとき、パイプやリダイレクト時にもCOLOR＿CODEが適用されるよう強制します")
+	rootCmd.PersistentFlags().StringP("width", "w", "auto", "表示幅です。autoにすると端末の幅を取得します")
+	_ = rootCmd.PersistentFlags().MarkDeprecated("width", "AAの最大幅を指定することはできなくなりました")
 
-	if runtime.GOOS == "windows" {
-		newline = "\r\n"
-	} else if runtime.GOOS == "darwin" {
-		newline = "\r"
-	} else {
-		newline = "\n"
-	}
+	rootCmd.PersistentFlags().Bool("overwrite", false, "複数回出力するときに同じ場所に上書きし続けます")
+	rootCmd.PersistentFlags().StringP("count", "n", "1", "指定回数繰り返します。負数かinfを指定すると無限になります")
+
+	defaultDuration, _ := time.ParseDuration("0.5s")
+	rootCmd.PersistentFlags().Duration("duration", defaultDuration, "繰り返しのインターバルです")
+
+	rootCmd.PersistentFlags().Int("offset", 0, "左からの距離です")
+
+	rootCmd.PersistentFlags().BoolP("insert-empty", "E", true, "出力の1行目に必ず空白行を挿入します")
 }

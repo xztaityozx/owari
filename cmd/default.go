@@ -21,18 +21,16 @@
 package cmd
 
 import (
-	"fmt"
-	"math"
-	"strings"
-
 	"github.com/spf13/cobra"
+	"github.com/xztaityozx/owari/aa/arts"
+	"log"
+	"strings"
 )
 
 // defaultCmd represents the default command
 var defaultCmd = &cobra.Command{
-	Use:     "default",
-	Short:   "基本の終わりを出力するよ",
-	Aliases: []string{"def"},
+	Use:   "default",
+	Short: "基本の終わりを出力するよ",
 	Long: `
        糸冬
 -------------------
@@ -41,46 +39,19 @@ var defaultCmd = &cobra.Command{
 を出力します
 引数を与えると「糸冬」の部分に置き換わります`,
 	Run: func(cmd *cobra.Command, args []string) {
-		offset, _ := cmd.Flags().GetInt("offset")
+		a, _ := cmd.Flags().GetString("author")
+		so := arts.NewSimpleOwari(strings.Join(args, " "), a)
+		if err := so.Load(""); err != nil {
+			log.Fatal(err)
+		}
 
-		PrintDefault(strings.Split(strings.Join(args, " "), newline)[0], offset)
+		if err := writer.Write(so.AsciiArt); err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(defaultCmd)
-
-	defaultCmd.Flags().Int("offset", 0, "右からの距離です")
-}
-func PrintDefault(text string, offset int) {
-	if len(text) == 0 {
-		text = "糸冬"
-	}
-
-	// 幅を合わせていく
-	// 上のテキストの見た目の幅を数える
-	length := GetLooksLength(text)
-
-	// ハイフンの数
-	upper := 8
-	lower := 8
-	defaultBarSize := 20
-
-	if length+upper+lower < defaultBarSize {
-		div := defaultBarSize - length - upper - lower
-		upper += div / 2
-		lower += div - (div / 2)
-	}
-
-	AA := []string{
-		"",
-		"",
-		fmt.Sprintf("%s%s", strings.Repeat(" ", upper), text),
-		strings.Repeat("-", length+upper+lower),
-		strings.Repeat(" ", int(math.Max(0, 2+float64(length+upper+lower-defaultBarSize)/2))) + "制作・著作 ＮＨＫ",
-	}
-
-	c := GetWidth() - length - upper - lower - offset
-
-	PrintAA(AA, c)
+	defaultCmd.Flags().StringP("author", "a", "ＮＨＫ", "制作・著作の隣を指定します")
 }

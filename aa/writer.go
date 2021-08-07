@@ -55,8 +55,8 @@ func NewWriter(w io.Writer) Writer {
 	}
 }
 
-// SetBeginEmpty は出力時に1行目に必ず空行を出力するかどうかのON/OFFを設定する
-func (w *Writer) SetBeginEmpty(b bool) {
+// SetInsertEmpty は出力時に1行目に必ず空行を出力するかどうかのON/OFFを設定する
+func (w *Writer) SetInsertEmpty(b bool) {
 	w.beginEmpty = b
 }
 
