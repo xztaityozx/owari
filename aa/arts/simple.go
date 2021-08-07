@@ -6,12 +6,22 @@ import (
 	"strings"
 )
 
+// SimpleOwari は
+//
+//
+//         糸冬
+// ---------------------
+//   制作・著作 ＮＨＫ
+//
+// です
+
 type SimpleOwari struct {
 	aa.AsciiArt
 	author string
 	text   string
 }
 
+// NewSimpleOwari は SimpleOwari を作って返す
 func NewSimpleOwari(text, author string) SimpleOwari {
 	return SimpleOwari{
 		author: author, text: text,
