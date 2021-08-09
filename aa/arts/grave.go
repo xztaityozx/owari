@@ -5,10 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/xztaityozx/owari/aa"
-	"log"
 )
 
-// go:embed raw/grave.json
+//go:embed raw/grave.json
 var graveTemplateContent []byte
 
 // Grave は
@@ -36,10 +35,8 @@ func NewGrave(text string) Grave {
 	return Grave{text: text}
 }
 
-func (g Grave) Load(font string) error {
+func (g *Grave) Load(font string) error {
 	var graveTemplate map[string][]string
-
-	log.Println(graveTemplateContent)
 
 	if err := json.Unmarshal(graveTemplateContent, &graveTemplate); err != nil {
 		return err
@@ -62,6 +59,8 @@ func (g Grave) Load(font string) error {
 
 		g.AsciiArt = append(g.AsciiArt, fmt.Sprintf(template[1], t))
 	}
+
+	g.AsciiArt = append(g.AsciiArt, template[2:]...)
 
 	return nil
 }
