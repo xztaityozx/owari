@@ -31,7 +31,7 @@ var graveCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		stdin, _ := cmd.Flags().GetBool("stdin")
-		t, _ := cmd.Flags().GetString("type")
+		//t, _ := cmd.Flags().GetString("type")
 		text := func() []string {
 			if stdin {
 				var lines []string
@@ -52,7 +52,7 @@ var graveCmd = &cobra.Command{
 		}()
 
 		grave := arts.NewGrave(strings.Join(text, ""))
-		if err := grave.Load(t); err != nil {
+		if err := grave.Load(""); err != nil {
 			log.Fatal(err)
 		}
 
@@ -65,5 +65,5 @@ var graveCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(graveCmd)
 	graveCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
-	graveCmd.Flags().String("type", "default", "フォントや形状などを選択することができます。存在しないものの場合はdefaultが代わりに使われます")
+	//graveCmd.Flags().String("type", "default", "フォントや形状などを選択することができます。存在しないものの場合はdefaultが代わりに使われます")
 }
