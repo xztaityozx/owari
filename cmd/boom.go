@@ -20,89 +20,82 @@
 
 package cmd
 
-//
-//import (
-//	"bufio"
-//	"fmt"
-//	"log"
-//	"os"
-//	"strconv"
-//	"strings"
-//	"time"
-//
-//	ansi "github.com/k0kubun/go-ansi"
-//	"github.com/spf13/cobra"
-//)
-//
-//// boomCmd represents the boom command
-//var boomCmd = &cobra.Command{
-//	Use:   "boom",
-//	Short: "ブーム君がおわるよ",
-//	Long: `
-//
-//                  __|...|     ピッ・・・ピッ・・・ピッ・・・
-//...                 |％| |
-//           >>1      |＿| |
-//     ＿ .／￣＼＿__ノ  |
-//   /|  | | ^o^ ||ノ    |
-//  ||, ～～'⌒⌒ヽ～-.､.|
-//  ||＼ '   ,⌒ ｀    ﾞヽ
-//  ||＼＼||￣|￣|￣|￣|||
-//..    ＼||￣￣￣￣￣￣||
-//        ||￣￣￣￣￣￣||
-//
-//                 __|...|     ピーーーーーーーーーー
-//..                 |  | |
-//          >>1      |＿| |
-//     ＿ ／￣＼＿__ノ   |
-//   /|  || ^o^ ||ノ     |
-//  ||, ～～'⌒⌒ヽ～-.､.|
-//  ||＼ '   ,⌒ ｀    ﾞヽ
-//  ||＼＼||￣|￣|￣|￣|||
-//..    ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
-//        ||￣￣￣￣￣￣||                ｄ⌒) ./|  _ﾉ    __ﾉ
-//
-//を表示します．引数を与えると 「>>1」の部分を置き換えますが，半角幅15文字までです．
-//`,
-//	Run: func(cmd *cobra.Command, args []string) {
-//		offset, err := cmd.Flags().GetInt("offset")
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//
-//		text := strings.Join(args, " ")
-//		if len(text) == 0 {
-//			text = ">>1"
-//		}
-//
-//		count, err := cmd.Flags().GetInt("countDown")
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//		pid, err := cmd.Flags().GetInt("kill")
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//		yes, err := cmd.Flags().GetBool("yes")
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//
-//		if pid != -1 {
-//			text = fmt.Sprintf("PID: %d", pid)
-//		}
-//
-//		ba := NewBoomAA(text, offset, count)
-//		ba.Run(pid, yes)
-//	},
-//}
-//
+import (
+	"github.com/spf13/cobra"
+)
+
+// boomCmd represents the boom command
+var boomCmd = &cobra.Command{
+	Use:   "boom",
+	Short: "ブーム君がおわるよ",
+	Long: `
+
+                 __|...|     ピッ・・・ピッ・・・ピッ・・・
+...                 |％| |
+          >>1      |＿| |
+    ＿ .／￣＼＿__ノ  |
+  /|  | | ^o^ ||ノ    |
+ ||, ～～'⌒⌒ヽ～-.､.|
+ ||＼ '   ,⌒ ｀    ﾞヽ
+ ||＼＼||￣|￣|￣|￣|||
+..    ＼||￣￣￣￣￣￣||
+       ||￣￣￣￣￣￣||
+
+                __|...|     ピーーーーーーーーーー
+..                 |  | |
+         >>1      |＿| |
+    ＿ ／￣＼＿__ノ   |
+  /|  || ^o^ ||ノ     |
+ ||, ～～'⌒⌒ヽ～-.､.|
+ ||＼ '   ,⌒ ｀    ﾞヽ
+ ||＼＼||￣|￣|￣|￣|||
+..    ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
+       ||￣￣￣￣￣￣||                ｄ⌒) ./|  _ﾉ    __ﾉ
+
+を表示します．引数を与えると 「>>1」の部分を置き換えますが，半角幅15文字までです．
+`,
+	Run: func(cmd *cobra.Command, args []string) {
+		//offset, err := cmd.Flags().GetInt("offset")
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		//
+		//text := strings.Join(args, " ")
+		//if len(text) == 0 {
+		//	text = ">>1"
+		//}
+		//
+		//count, err := cmd.Flags().GetInt("countDown")
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		//pid, err := cmd.Flags().GetInt("kill")
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		//yes, err := cmd.Flags().GetBool("yes")
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		//
+		//if pid != -1 {
+		//	text = fmt.Sprintf("PID: %d", pid)
+		//}
+		//
+		//ba := NewBoomAA(text, offset, count)
+		//ba.Run(pid, yes)
+	},
+}
+
 //type BoomAA struct {
 //	SeqNum    int
 //	Width     int
 //	ThirdLine string
 //	Offset    int
 //	Max       int
+//	Count     int
+//	Duration  time.Duration
+//	Overwrite bool
 //}
 //
 //func (ba BoomAA) Run(pid int, yes bool) {
@@ -218,22 +211,22 @@ package cmd
 //
 //func (ba BoomAA) Base() []string {
 //	return strings.Split(`     ＿ .／￣＼＿__ノ  |
-//   /|  | | ^o^ ||ノ    |
-//   ||, ～～'⌒⌒ヽ～-.､.|
-//   ||＼ '   ,⌒ ｀    ﾞヽ
-//   ||＼＼||￣|￣|￣|￣|||
+//  /|  | | ^o^ ||ノ    |
+//  ||, ～～'⌒⌒ヽ～-.､.|
+//  ||＼ '   ,⌒ ｀    ﾞヽ
+//  ||＼＼||￣|￣|￣|￣|||
 //..     ＼||￣￣￣￣￣￣||
-//         ||￣￣￣￣￣￣||`, "\n")
+//        ||￣￣￣￣￣￣||`, "\n")
 //}
 //
 //func (ba BoomAA) FinishBase() []string {
 //	return strings.Split(`     ＿ .／￣＼＿__ノ  |
-//   /|  | | ^o^ ||ノ    |
-//   ||, ～～'⌒⌒ヽ～-.､.|
-//   ||＼ '   ,⌒ ｀    ﾞヽ
-//   ||＼＼||￣|￣|￣|￣|||
+//  /|  | | ^o^ ||ノ    |
+//  ||, ～～'⌒⌒ヽ～-.､.|
+//  ||＼ '   ,⌒ ｀    ﾞヽ
+//  ||＼＼||￣|￣|￣|￣|||
 //..     ＼||￣￣￣￣￣￣||                ┼ヽ   -|r‐､.  ﾚ  |
-//         ||￣￣￣￣￣￣||               ｄ⌒)  ./|  _ﾉ   __ﾉ`, "\n")
+//        ||￣￣￣￣￣￣||               ｄ⌒)  ./|  _ﾉ   __ﾉ`, "\n")
 //}
 //
 //func init() {
