@@ -7,9 +7,6 @@ import (
 	"github.com/xztaityozx/owari/aa"
 )
 
-//go:embed raw/grave.json
-var graveTemplateContent []byte
-
 // Grave は
 //     ┌─┐
 //     │先│
@@ -36,6 +33,13 @@ func NewGrave(text string) Grave {
 }
 
 func (g *Grave) Load(font string) error {
+	var graveTemplateContent []byte
+	var err error
+	graveTemplateContent, err = raw.ReadFile("raw/grave.json")
+	if err != nil {
+		return err
+	}
+
 	var graveTemplate map[string][]string
 
 	if err := json.Unmarshal(graveTemplateContent, &graveTemplate); err != nil {
