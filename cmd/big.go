@@ -21,7 +21,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/xztaityozx/owari/aa/arts"
 	"log"
@@ -32,7 +31,7 @@ import (
 var bigCmd = &cobra.Command{
 	Use:   "big",
 	Short: "デカい終を出しますよ",
-	Long:  fmt.Sprintf("デカい終を出力します\n引数を与えると，終了の文字がそれになります\n"),
+	Long:  "デカい終を出力します\n引数を与えると，終了の文字がそれになります\n",
 	Run: func(cmd *cobra.Command, args []string) {
 		bo := arts.NewBigOwari(strings.Join(args, ""))
 		if err := bo.Load(""); err != nil {

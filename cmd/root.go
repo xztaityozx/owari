@@ -81,8 +81,7 @@ repository: https://github.com/xztaityozx/owari
 			if count == "inf" {
 				return -1, nil
 			}
-			rt, err := strconv.Atoi(count)
-			return rt, nil
+			return strconv.Atoi(count)
 		}()
 		if err != nil {
 			return err
