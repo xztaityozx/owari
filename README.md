@@ -1,7 +1,4 @@
 # owari
-<center>
-  <img src="img/kanban3.png" alt="kanban3">
-</center>
 
 The End ASCII Art Generator
 
@@ -95,6 +92,8 @@ $ owari complete powershell
 ![](./img/kanban1.png)
 
 ![](./img/kanban2.png)
+
+![](./img/kanban3.png)
 
 ### `$ owari big`
 ![](./img/big.PNG)
