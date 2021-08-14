@@ -1,7 +1,7 @@
 # owari
-<p style="align-content: center">
-<img alt="kanban3" src="https://github.com/xztaityozx/owari/blob/master/img/kanban3.PNG">
-</p>
+<div style="align-content: center">
+![](./img/kanban3.png)
+</div>
 
 The End ASCII Art Generator
 
