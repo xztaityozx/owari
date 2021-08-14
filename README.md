@@ -1,6 +1,6 @@
 # owari
-<div style="align-content: center">
-![](./img/kanban3.png)
+<div style="display: flex;align-items: center;justify-content: center">
+  <img src="img/kanban3.png" alt="kanban3">
 </div>
 
 The End ASCII Art Generator
