@@ -35,16 +35,16 @@ var rootCmd = &cobra.Command{
 	Short:   "終了を知らせるAAを出力するコマンドだよ！仲良く使ってね！",
 	Version: "2.0",
 	Long: `
-author: xztaityozx
-repository: https://github.com/xztaityozx/owari
-
 
        糸冬
 -------------------
- 制作・著作 ＮＨＫ
+ 制作・著作 ＯＷＲ
 
 を出力するよ。ほかにもいろいろあるよ。
 
+
+author: xztaityozx
+repository: https://github.com/xztaityozx/owari
 
 `,
 	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
@@ -123,13 +123,15 @@ var writer aa.Writer
 
 func init() {
 	rootCmd.PersistentFlags().BoolP("colorful", "c", false, "カラフルにします")
-	rootCmd.PersistentFlags().BoolP("colorful-always", "C", false, "colorfulフラグが有効なとき、パイプやリダイレクト時にもCOLOR＿CODEが適用されるよう強制します")
+	rootCmd.PersistentFlags().BoolP("colorful-always", "C", false, "colorfulフラグが有効なとき、パイプやリダイレクト時にもCOLOR_CODEが適用されるよう強制します")
+	// Deprecated {{{
 	rootCmd.PersistentFlags().StringP("width", "w", "auto", "表示幅です。autoにすると端末の幅を取得します")
 	_ = rootCmd.PersistentFlags().MarkDeprecated("width", "AAの最大幅を指定することはできなくなりました")
+	// }}}
 	rootCmd.PersistentFlags().BoolP("overwrite", "o", false, "複数回出力するときに同じ場所に上書きし続けます")
-	rootCmd.PersistentFlags().StringP("count", "n", "1", "指定回数繰り返します。負数かinfを指定すると無限になります")
+	rootCmd.PersistentFlags().StringP("count", "n", "1", "指定回数出力します。負数かinfを指定すると無限になります")
 	defaultDuration, _ := time.ParseDuration("0.5s")
-	rootCmd.PersistentFlags().DurationP("duration", "d", defaultDuration, "繰り返しのインターバルです")
-	rootCmd.PersistentFlags().Int("offset", 0, "左からの距離です")
+	rootCmd.PersistentFlags().DurationP("duration", "d", defaultDuration, "複数回出力のインターバルです")
+	rootCmd.PersistentFlags().Int("offset", 0, "左からアスキーアートまでの距離です")
 	rootCmd.PersistentFlags().BoolP("insert-empty", "E", true, "出力の1行目に必ず空白行を挿入します")
 }

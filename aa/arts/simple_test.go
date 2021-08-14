@@ -23,7 +23,7 @@ func TestSimpleOwari_Load(t *testing.T) {
 		"", "",
 		"        糸冬",
 		"---------------------",
-		"  制作・著作 ＮＨＫ",
+		"  制作・著作 ＯＷＲ",
 	}
 
 	assert.Equal(t, strings.Join(expect, "\n"), strings.Join(so.AsciiArt, "\n"))

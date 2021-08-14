@@ -34,7 +34,7 @@ var defaultCmd = &cobra.Command{
 	Long: `
        糸冬
 -------------------
- 制作・著作 ＮＨＫ
+ 制作・著作 ＯＷＲ
 
 を出力します
 引数を与えると「糸冬」の部分に置き換わります`,
@@ -53,5 +53,5 @@ var defaultCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(defaultCmd)
-	defaultCmd.Flags().StringP("author", "a", "ＮＨＫ", "制作・著作の隣を指定します")
+	defaultCmd.Flags().StringP("author", "a", "ＯＷＲ", "制作・著作の隣を指定します")
 }

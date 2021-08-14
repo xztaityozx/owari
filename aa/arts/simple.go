@@ -11,7 +11,7 @@ import (
 //
 //         糸冬
 // ---------------------
-//   制作・著作 ＮＨＫ
+//   制作・著作 ＯＷＲ
 //
 // です
 
@@ -34,7 +34,7 @@ func (s *SimpleOwari) Load(_ string) error {
 	}
 
 	if len(s.author) == 0 {
-		s.author = "ＮＨＫ"
+		s.author = "ＯＷＲ"
 	}
 	signature := fmt.Sprintf("制作・著作 %s", s.author)
 

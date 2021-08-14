@@ -13,7 +13,7 @@ import (
 ////|        終        |
 ////|    制作・著作    |
 ////|  ￣￣￣￣￣￣￣  |
-////|     Ｎ Ｈ Ｋ     |
+////|     Ｏ Ｗ Ｒ     |
 ////|＿＿＿＿＿＿＿＿＿|
 ////   ∧∧  ||
 ////  ( ﾟдﾟ)||
@@ -42,7 +42,7 @@ func NewKanban(text []string) Kanban {
 	}
 	return Kanban{
 		text:   text,
-		author: "Ｎ Ｈ Ｋ",
+		author: "Ｏ Ｗ Ｒ",
 	}
 }
 
@@ -139,6 +139,7 @@ func (k *Kanban) Load(font string) error {
 		fmt.Sprintf("%s%s%s", kt.SideString, strings.Repeat(kt.BottomString, (maxOfLooksLength+4)/2), kt.SideString),
 	)
 
+	// ギコ猫やこなたなどのキャラクター
 	var character []string
 	var ok bool
 	const def = "default"
