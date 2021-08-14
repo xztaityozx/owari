@@ -1,5 +1,5 @@
 # owari
-<div style="display: flex;align-items: center;justify-content: center">
+<div style="text-align: center;">
   <img src="img/kanban3.png" alt="kanban3">
 </div>
 
