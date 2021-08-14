@@ -12,7 +12,11 @@ import (
 //   ｂ == 2
 // 見た目上の長さを特別扱いしたい文字などが登場したらここに追加していく感じでヨロ！
 func GetLooksLength(text string) int {
-	return runewidth.StringWidth(text)
+	cond := runewidth.NewCondition()
+	// EastAsianWidthを強制します
+	cond.EastAsianWidth = true
+
+	return cond.StringWidth(text)
 }
 
 // MaxOfLooksLength は引数に渡された文字列のうち見た目上の長さが最大なものの長さを返す
