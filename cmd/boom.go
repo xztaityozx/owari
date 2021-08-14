@@ -22,13 +22,15 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/xztaityozx/owari/aa/arts"
 	"log"
 )
 
 // boomCmd represents the boom command
 var boomCmd = &cobra.Command{
-	Use:   "boom",
-	Short: "ブーム君がおわるよ",
+	Use:        "boom",
+	Short:      "ブーム君がおわるよ",
+	Deprecated: "owariはブーム君の提供を終了しました。ご利用ありがとうございました。",
 	Long: `
 
                  __|...|     ピッ・・・ピッ・・・ピッ・・・
@@ -56,11 +58,17 @@ var boomCmd = &cobra.Command{
 を表示します．引数を与えると 「>>1」の部分を置き換えますが，半角幅15文字までです．
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Fatal("not impl")
+		grave := arts.NewGrave("boomサブコマンドの墓")
+		if err := grave.Load(""); err != nil {
+			log.Fatalln(err)
+		}
+
+		if err := writer.Write(grave.AsciiArt); err != nil {
+			log.Fatalln(err)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(boomCmd)
-	boomCmd.Deprecated = "owariはブーム君の提供を終了しました。ご利用ありがとうございました。"
 }
