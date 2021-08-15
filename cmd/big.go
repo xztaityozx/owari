@@ -21,125 +21,29 @@
 package cmd
 
 import (
-	"fmt"
-	"strings"
-	"time"
-
 	"github.com/spf13/cobra"
+	"github.com/xztaityozx/owari/aa/arts"
+	"log"
+	"strings"
 )
-
-var BigAA = `
-          了                了了了
-          終終了            了終了
-        了終終              終終了
-      了終終了            了終終了了了了終終了
-      終終終    了了      了終終終終終終終終終了
-  了了終終了  了終終了  了終終了了了了了終終終
-了終終終終了了終終了    了終終終      了終終了
-了終終終終了了終了    了終終了終了  了終終終
-  了終終終終終終了  了終終了了終終了終終終了
-    了終終終終了了  了終了    了終終終終了
-      了終終了了終了  了        了終終終
-      了終終    終終了          了終終了了
-了了了終終終了終終終終了    了了終終終終終了
-終終終終終終終終了終終了了終終終終了終終終終終終了了
-終終了了了終終    了了終終終終了了    了終終終終終了
-了了了    終終  了了了終終終了了終了了了了終終終終了
-  終終終了終終了終終了終終了  了終終終終了了了了了
-  終終終了終終了終終了了了    了終終終終終終了
-  終終終了終終  了終終          了了終終終終了
-了終終終  終終  了終終了    了      了終終了
-了終終終  終終    終終了  了終終了了了
-了終終了  終終    終終了  了終終終終終了了
-了終終了  終終    了了    了終終終終終終終終了了
-了終終了  終終              了了終終終終終終終了
-          終終                    了終終終終終了
-          終終                        了了了了
-`
-
-var BigHolly = `
-          柊柊木            木木木
-          柊柊木            木柊木
-          柊柊木            柊柊木
-          柊柊木          木柊柊木木木木柊柊木
-          柊柊木          木柊柊柊柊柊柊柊柊柊木
-  柊柊柊柊柊柊柊柊柊木  木柊柊木木木木木柊柊柊
-  柊柊柊柊柊柊柊柊柊木  木柊柊柊      木柊柊木
-  木木木木柊柊木木木  木柊柊木柊木  木柊柊柊
-        木柊柊柊  木柊柊木木柊柊木柊柊柊木
-        柊柊柊柊木  木柊木    木柊柊柊柊木
-      木柊柊柊柊柊木  木        木柊柊柊
-      木柊柊柊木柊柊木          木柊柊木木
-    木柊柊柊柊木柊柊柊木    木木柊柊柊柊柊木
-    柊柊柊柊柊木木柊柊木木柊柊柊柊木柊柊柊柊柊柊木木
-  柊柊木  柊柊木  木木柊柊柊柊木木    木柊柊柊柊柊木
-木柊柊    柊柊木  木木柊柊柊木木柊木木木木柊柊柊柊木
-柊柊木    柊柊木  木木柊柊木  木柊柊柊柊木木木木木
-  柊      柊柊木    木木木    木柊柊柊柊柊柊木
-          柊柊木              木木柊柊柊柊木
-          柊柊木          木      木柊柊木
-          柊柊木        木柊柊木木木
-          柊柊木        木柊柊柊柊柊木木
-          柊柊木        木柊柊柊柊柊柊柊柊木木
-          柊柊木            木木柊柊柊柊柊柊柊木
-          柊柊木                  木柊柊柊柊柊木
-          柊柊木                      木木木木
-`
 
 // bigCmd represents the big command
 var bigCmd = &cobra.Command{
 	Use:   "big",
 	Short: "デカい終を出しますよ",
-	Long:  fmt.Sprintf("%s\n\nを出力します\n引数を与えると，終了の文字がそれになります\n", BigAA),
+	Long:  "デカい終を出力します\n引数を与えると，終了の文字がそれになります\n",
 	Run: func(cmd *cobra.Command, args []string) {
-		offset, _ := cmd.Flags().GetInt("offset")
+		bo := arts.NewBigOwari(strings.Join(args, ""))
+		if err := bo.Load(""); err != nil {
+			log.Fatal(err)
+		}
 
-		PrintBig(strings.Join(args, ""), offset)
+		if err := writer.Write(bo.AsciiArt); err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(bigCmd)
-	bigCmd.Flags().Int("offset", 0, "左端からの距離です")
-}
-
-func PrintBig(text string, offset int) {
-
-	status := len(text) == 0
-	t := time.Now()
-	baseAA := BigAA
-
-	if t.Month() == 12 && t.Day() == 25 {
-		baseAA = BigHolly
-	}
-
-	if status {
-		PrintAA(strings.Split(baseAA, "\n"), offset)
-		return
-	}
-
-	runeText := []rune(text)
-	textIdx := 0
-	maxLength := len(runeText)
-
-	var aa []string
-
-	for _, line := range strings.Split(baseAA, "\n") {
-		if status {
-			PaddingPrint(line, offset)
-		} else {
-			var replaced []rune
-			for _, c := range line {
-				if c == rune('終') || c == rune('了') || c == rune('柊') || c == rune('木') {
-					replaced = append(replaced, runeText[textIdx])
-					textIdx = (textIdx + 1) % maxLength
-				} else {
-					replaced = append(replaced, rune(' '))
-				}
-			}
-			aa = append(aa, string(replaced))
-		}
-	}
-
-	PrintAA(aa, offset)
 }

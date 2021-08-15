@@ -21,9 +21,9 @@
 package cmd
 
 import (
-	"strings"
-
 	"github.com/spf13/cobra"
+	"github.com/xztaityozx/owari/aa/arts"
+	"log"
 )
 
 // funnySundayCmd represents the funnySunday command
@@ -32,22 +32,18 @@ var funnySundayCmd = &cobra.Command{
 	Aliases: []string{"fs", "fun"},
 	Short:   "楽しい休日は終わった",
 	Run: func(cmd *cobra.Command, args []string) {
-		aa := `たのしい休日
+		fs := arts.NewFunnySunday()
 
-                           /||￣￣|| ∧∧
-                          l ||＿＿||(,/⌒ヽ
-                         [l  | ,,― とﾉ    ヽ
-                    |￣￣￣￣￣     (＿＿＿ )
+		if err := fs.Load(""); err != nil {
+			log.Fatalln(err)
+		}
 
-                                          ┼ヽ   -|r‐､.  ﾚ  |
-                                         ｄ⌒)  ./| _ﾉ    __ﾉ`
-
-		offset, _ := cmd.Flags().GetInt("offset")
-		PrintAA(strings.Split(aa, "\n"), offset)
+		if err := writer.Write(fs.AsciiArt); err != nil {
+			log.Fatalln(err)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(funnySundayCmd)
-	funnySundayCmd.Flags().Int("offset", 0, "左側からの距離です")
 }
