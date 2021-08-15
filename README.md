@@ -4,6 +4,9 @@ The End ASCII Art Generator
 
 終焉にまつわるアスキーアートを出力するだけのコマンド
 
+[![Go](https://github.com/xztaityozx/owari/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/xztaityozx/owari/actions/workflows/go.yml)
+
+
 ## Install
 ### go get
 ```sh
