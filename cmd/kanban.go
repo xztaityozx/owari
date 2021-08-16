@@ -22,10 +22,11 @@ package cmd
 
 import (
 	"bufio"
-	"github.com/spf13/cobra"
-	"github.com/xztaityozx/owari/aa/arts"
 	"log"
 	"os"
+
+	"github.com/spf13/cobra"
+	"github.com/xztaityozx/owari/aa/arts"
 )
 
 // kanbanCmd represents the kanban command
@@ -102,7 +103,7 @@ func init() {
 	kanbanCmd.Flags().BoolP("stdin", "i", false, "標準入力を受取ります")
 	kanbanCmd.Flags().Bool("konata", false, "こなた")
 	kanbanCmd.Flags().BoolP("textimg", "t", false, "textimg用に出力を整えます。実際には--font=NotoSansCJKのShortHandです")
-	kanbanCmd.Flags().StringP("author", "a", "Ｎ Ｈ Ｋ", "制作・著作者を指定します")
+	kanbanCmd.Flags().StringP("author", "a", "Ｏ Ｗ Ｒ", "制作・著作者を指定します")
 	kanbanCmd.Flags().StringP("font", "f", "default", "指定したフォントでの描画用に出力を整えます")
 	kanbanCmd.Flags().Bool("reverse", false, "ギコ猫を反転します")
 	kanbanCmd.Flags().Bool("twin", false, "ギコ猫を二匹に増やします")

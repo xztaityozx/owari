@@ -1,9 +1,10 @@
 package arts
 
 import (
-	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewKanban(t *testing.T) {
@@ -19,6 +20,7 @@ func TestNewKanban(t *testing.T) {
 func TestKanban_Load(t *testing.T) {
 	t.Run("装飾がないやつ", func(t *testing.T) {
 		k := NewKanban(nil)
+		k.SetAuthor("")
 		assert.NotNil(t, k)
 		err := k.Load("default")
 		assert.Nil(t, err)
