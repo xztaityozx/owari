@@ -3,8 +3,9 @@ package arts
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/xztaityozx/owari/aa"
 	"strings"
+
+	"github.com/xztaityozx/owari/aa"
 )
 
 // Kanban は
@@ -67,7 +68,7 @@ func (k *Kanban) SetReverse(b bool) {
 
 func (k *Kanban) SetAuthor(author string) {
 	if len(author) == 0 {
-		k.author = "Ｎ Ｈ Ｋ"
+		k.author = "Ｏ Ｗ Ｒ"
 	} else {
 		k.author = author
 	}
