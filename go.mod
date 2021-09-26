@@ -1,6 +1,6 @@
 module github.com/xztaityozx/owari
 
-go 1.17
+go 1.16
 
 require (
 	github.com/fatih/color v1.12.0
