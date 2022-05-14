@@ -4,25 +4,19 @@ The End ASCII Art Generator
 
 終焉にまつわるアスキーアートを出力するだけのコマンド
 
-[![Go](https://github.com/xztaityozx/owari/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/xztaityozx/owari/actions/workflows/go.yml)
-
+[![Go](https://github.com/xztaityozx/owari/actions/workflows/go.yml/badge.svg)](https://github.com/xztaityozx/owari/actions/workflows/go.yml)
 
 ## Install
-### go get
+### go install
+ 
+- Go >= 1.18.0
+
 ```sh
-$ go get -u github.com/xztaityozx/owari
+$ go install github.com/xztaityozx/owari@latest
 ```
 
 ### GitHub Releases
 [GitHub Releases](https://github.com/xztaityozx/owari/releases) からビルド済みのバイナリをダウンロードできます
-```sh
-$ wget https://github.com/xztaityozx/owari/releases/download/x.xx/owari-x.xx-linux.zip
-$ unzip ./owari-x.xx-linux.zip
-$ cp ./owari-*/owari ~/.local/bin
-```
-
-## Requirements
-- Go >= 1.16.6
 
 ## Usage
 
