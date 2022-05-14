@@ -81,3 +81,5 @@ fabric.properties
 # developer execution file
 owari
 main
+
+dist/
