@@ -15,7 +15,7 @@ jobs:
     name: "golang-linter"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.3
+      - uses: actions/checkout@v3
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
@@ -30,11 +30,11 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-      - uses: actions/checkout@v2.3.3
+      - uses: actions/checkout@v3
       - name: before cache
         run: |
           mkdir -p ~/go/pkg/mod
-      - uses: actions/cache@v2.1.2
+      - uses: actions/cache@v3
         id: cache-go
         with:
           key: ${{ matrix.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -42,9 +42,9 @@ jobs:
           restore-keys: |
             go-${{ matrix.os }}-
       - name: Setup GoLang
-        uses: actions/setup-go@v2.1.3
+        uses: actions/setup-go@v3
         with:
-          go-version: ^1.17
+          go-version: '>=1.18.0'
       - name: Get Dependencies
         if: steps.cache-go.outputs.cache-hit != 'true'
         run: go get -v -t -d ./...
