@@ -111,7 +111,7 @@ $ owari big --overwrite --colorful --count 10
 [ここ](./aa/arts/raw)にテンプレートとしてJSONを置き、特定のフォントの時はこういう出力にする。みたいなのを書いています。[kanbanサブコマンドのテンプレ](./aa/arts/raw/kanban.json)が参考になるかと思います
 
 ### サブコマンドを追加したいとき
-ほかのサブコマンドの実装を参考にしてPul-Reqを送ってください。どうしても実装したくない場合はIssueを建ててください
+ほかのサブコマンドの実装を参考にしてPul-Reqを送ってくださいね。
 
 ## LICENSE
 [LICENSE](./LICENSE)
