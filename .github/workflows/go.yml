@@ -5,10 +5,14 @@ on:
     paths: 
       - '**.go'
       - '.github/workflows/**'
+      - 'go.mod'
+      - 'go.sum'
   pull_request:
     paths: 
       - '**.go'
       - '.github/workflows/**'
+      - 'go.mod'
+      - 'go.sum'
 
 jobs:
   linter:
