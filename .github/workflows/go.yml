@@ -59,11 +59,10 @@ jobs:
       - name: Test
         run: |
           go test -v ./...
-          
-      - uses: xztaityozx/owari-action@v1
+
+      - uses: xztaityozx/owari-action@v1.0.0
         with:
           as-summary: true
-          args: 'kanban -a xztaityozx/owari "$(go run main.go --version)"'
 
   release:
     needs: [linter, test]
